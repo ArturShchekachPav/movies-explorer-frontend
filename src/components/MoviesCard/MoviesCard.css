@@ -1,0 +1,64 @@
+.movie-card {
+  background-color: #FFF;
+  box-shadow: 0 16px 24px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.movie-card__image {
+  display: block;
+  width: 100%;
+  min-height: 151px;
+  aspect-ratio: 270/151;
+  color: #fff;
+  background-color: #000;
+  object-fit: cover;
+}
+
+.movie-card__data {
+  display: flex;
+  justify-content: space-between;
+  margin: 14px 12px;
+}
+
+.movie-card__title {
+  font-family: Inter;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
+}
+
+.movie-card__duration {
+  color: #A0A0A0;
+  font-family: Inter;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 10px 0 0 0;
+}
+
+.movie-card__button {
+  background-image: url(../../images/saved-icon.svg);
+  background-size: cover;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.movie-card__button_saved {
+  background-image: url(../../images/saved-active-icon.svg);
+}
+
+.movie-card__button_unsaved {
+  background-image: url(../../images/saved-icon.svg);
+}
+
+.movie-card__button_delete {
+  background-image: url(../../images/delete-icon.svg);
+}

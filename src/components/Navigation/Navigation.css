@@ -1,0 +1,82 @@
+.navigation {
+  width: 100%;
+}
+
+.navigation_main {
+  width: auto;
+  margin-left: auto;
+}
+
+.navigation__list {
+  list-style: none;
+  display: flex;
+  gap: 17px;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  width: 100%;
+}
+.navigation__list_main {
+  gap: 30px;
+}
+
+.navigation__item_type_profile {
+  margin-left: auto;
+}
+
+.navigation__link {
+  text-decoration: none;
+  text-align: right;
+  font-family: Inter;
+  font-style: normal;
+}
+
+.navigation__link_type_register {
+  color: #000;
+  font-size: 12px;
+  line-height: 133.333%;
+  font-weight: 500;
+}
+
+.navigation__link_type_login {
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 3px;
+  background: #3456F3;
+  font-size: 12px;
+  line-height: 133.333%;
+  font-weight: 500;
+}
+
+.navigation__link_type_pages {
+  color: #000;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 138.462%;
+}
+
+.navigation__link_type_pages.active {
+  font-weight: 500;
+}
+
+.navigation__link_type_profile {
+  border-radius: 50px;
+  border: 2px solid rgba(170, 170, 170, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 114.286%;
+}
+
+.navigation__link_type_profile:before {
+  content: "";
+  width: 12px;
+  height: 14px;
+  background-image: url(../../images/profile-link-icon.svg);
+  background-size: cover;
+  display: block;
+}

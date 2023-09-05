@@ -1,0 +1,27 @@
+.app__main {
+  background-color: #DDDEE3;
+}
+
+.app__movies {
+  background-color: #FAFAFA;
+}
+
+.container {
+  max-width: 1280px;
+  box-sizing: border-box;
+  padding: 0 70px;
+  margin: 0 auto;
+}
+
+.hover {
+  transition: all 0.4s linear;
+  cursor: pointer;
+}
+
+.hover_type_link:hover {
+  opacity: 70%;
+}
+
+.hover_type_button:hover {
+  opacity: 80%;
+}

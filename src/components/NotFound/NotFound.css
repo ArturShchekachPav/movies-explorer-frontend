@@ -1,0 +1,38 @@
+.not-found {
+  padding: 245px 0 60px 0;
+  text-align: center;
+}
+
+.not-found__title {
+  text-align: center;
+  font-family: Inter;
+  font-size: 140px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+}
+
+.not-found__subtitle {
+  text-align: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 4px 0 0 0;
+}
+
+.not-found__button {
+  color: #3456F3;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  background-color: transparent;
+  margin-top: 184px;
+  padding: 0;
+}
