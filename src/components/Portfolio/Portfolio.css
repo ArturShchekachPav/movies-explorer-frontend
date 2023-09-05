@@ -23,6 +23,15 @@
   gap: 20px;
 }
 
+.portfolio__project {
+  padding: 0 0 19px 0;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.portfolio__project:last-of-type {
+  border: none;
+}
+
 .portfolio__project-link {
   text-decoration: none;
   color: #000;
@@ -32,8 +41,6 @@
   font-weight: 400;
   line-height: 166.667%;
   letter-spacing: -1.2px;
-  padding: 0 0 19px 0;
-  border-bottom: 1px solid #E8E8E8;
   display: flex;
   justify-content: space-between;
 }
@@ -43,4 +50,17 @@
   position: relative;
   top: 5px;
   right: 1px;
+}
+
+@media screen and (max-width: 768px) {
+  .portfolio {
+    background-color: #FAFAFA;
+    padding: 41px 0 70px 0;
+  }
+
+  .portfolio__project-link {
+    letter-spacing: -1.12px;
+    line-height: 178.571%;
+    font-size: 28px;
+  }
 }

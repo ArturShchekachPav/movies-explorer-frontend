@@ -51,3 +51,30 @@
   line-height: normal;
   letter-spacing: -0.56px;
 }
+
+@media screen and (max-width: 768px) {
+  .techs {
+    padding: 90px 0;
+  }
+
+  .techs__title {
+    margin: 80px 0 0 0;
+  }
+
+  .techs__subtitle {
+    font-size: 12px;
+    line-height: 150%;
+    letter-spacing: -0.48px;
+    margin: 22px auto 0 auto;
+  }
+
+  .techs__list {
+    padding: 0 10px;
+    margin: 83px 0 0 0;
+  }
+
+  .techs__list-item {
+    font-size: 12px;
+    letter-spacing: -0.48px;
+  }
+}

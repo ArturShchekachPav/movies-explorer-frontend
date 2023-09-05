@@ -55,3 +55,18 @@
   height: 1px;
   margin: 69px 0 10px 0;
 }
+
+@media screen and (max-width: 768px) {
+  .search {
+    padding: 0 30px;
+  }
+
+  .search__form {
+    margin-top: 80px;
+    padding: 16px 21px 16px 19px;
+  }
+
+  .search__form-divider {
+    margin: 0 21px 0 19px;
+  }
+}

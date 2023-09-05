@@ -1,5 +1,5 @@
 import './NavTab.css';
-import { Link, animateScroll as scroll } from "react-scroll";
+import { Link } from "react-scroll";
 
 function NavTab() {
 	return (

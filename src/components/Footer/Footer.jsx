@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 function Footer() {
 	return (
 		<footer className="footer">
-			<div className="container">
+			<div className="container footer__container">
 				<h2 className="footer__title">Учебный проект Яндекс.Практикум х BeatFilm.</h2>
 				<div className="footer__info">
 					<p className="footer__year">© 2020</p>

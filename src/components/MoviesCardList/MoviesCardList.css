@@ -29,3 +29,11 @@
 .movies__more-button_disabled {
   display: none;
 }
+
+@media screen and (max-width: 768px) {
+  .movies__list {
+    grid-gap: 35px 29px;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 110px 30px 30px 30px;
+  }
+}

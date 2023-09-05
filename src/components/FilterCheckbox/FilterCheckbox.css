@@ -34,3 +34,9 @@
   border-radius: 100%;
   display: block;
 }
+
+@media screen and (max-width: 768px) {
+  .filter {
+    gap: 15px;
+  }
+}

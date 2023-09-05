@@ -1,6 +1,5 @@
 import './AboutMe.css';
 import SectionTitle from '../SectionTitle/SectionTitle';
-import {Link} from 'react-router-dom';
 import myPhoto from '../../images/me-photo.jpg';
 
 function AboutMe() {
@@ -14,7 +13,7 @@ function AboutMe() {
 						<p className="about-me__data">Фронтенд-разработчик, 30 лет</p>
 						<p className="about-me__description">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена
 						                                     и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб&#8209;разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
-						<a href="https://github.com/ArturShchekachPav" target="_blank" className="about-me__github hover hover_type_link">Github</a>
+						<a href="https://github.com/ArturShchekachPav" target="_blank" rel="noreferrer" className="about-me__github hover hover_type_link">Github</a>
 					</div>
 					<img
 						className="about-me__photo"

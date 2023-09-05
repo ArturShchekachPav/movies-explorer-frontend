@@ -44,3 +44,10 @@
   line-height: normal;
   text-decoration: none;
 }
+
+@media screen and (max-width: 768px) {
+  .footer__container {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+}

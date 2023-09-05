@@ -60,3 +60,36 @@
   max-width: 270px;
   border-radius: 10px;
 }
+
+@media screen and (max-width: 768px) {
+  .about-me {
+    padding: 90px 0 50px 0;
+  }
+
+  .about-me__info {
+    gap: 50px;
+  }
+
+  .about-me__name {
+    font-size: 40px;
+    line-height: 100%;
+    letter-spacing: -1.6px;
+  }
+
+  .about-me__data {
+    font-size: 12px;
+    line-height: 150%;
+    margin: 13px 0 0 0;
+  }
+
+  .about-me__description {
+    font-size: 12px;
+    line-height: 150%;
+    margin: 20px 0 0 0;
+  }
+
+  .about-me__photo {
+    max-width: 255px;
+    aspect-ratio: 255/304;
+  }
+}
