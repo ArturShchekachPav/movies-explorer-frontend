@@ -6,7 +6,7 @@ function MoviesCardList({children, possibleMore}) {
 			<ul className="container movies__list">
 				{children}
 			</ul>
-			<div className="movies__more">
+			<div className={`movies__more ${possibleMore ? '' : 'movies__more_disabled'}`}>
 				<button className={`movies__more-button ${possibleMore ? '' : 'movies__more-button_disabled'}`}>Ещё</button>
 			</div>
 		</section>

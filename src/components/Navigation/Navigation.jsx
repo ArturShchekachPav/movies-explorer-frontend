@@ -1,12 +1,17 @@
-import {NavLink, useLocation} from 'react-router-dom';
+import {
+	NavLink,
+	useLocation,
+	useNavigate
+} from 'react-router-dom';
 import './Navigation.css';
 
-function Navigation() {
+function Navigation({modificator}) {
 	const location = useLocation();
+	const navigate = useNavigate();
 	
 	return location.pathname === "/" ? (
-				<nav className="navigation navigation_main">
-					<ul className="navigation__list navigation__list_main">
+				<nav className="navigation navigation_type_main">
+					<ul className="navigation__list navigation__list_type_main">
 						<li className="navigation__item">
 							<NavLink className="navigation__link navigation__link_type_register hover hover_type_link" to="/sing-up">Регистрация</NavLink>
 						</li>
@@ -17,18 +22,22 @@ function Navigation() {
 				</nav>
 			
 			) : (
-				<nav className="navigation">
-					<ul className="navigation__list">
-						<li className="navigation__item">
-							<NavLink className="navigation__link navigation__link_type_pages hover hover_type_link" to="/movies">Фильмы</NavLink>
+				<nav className={`navigation ${modificator ? 'navigation_type_' + modificator : ''}`}>
+					<ul className={`navigation__list ${modificator ? 'navigation__list_type_' + modificator : ''}`}>
+						<li className={`navigation__item ${modificator ? 'navigation__item_type_' + modificator : ''}`}>
+							<NavLink className={`navigation__link ${modificator ? 'navigation__link_type_' + modificator : ''} hover hover_type_link`} to="/">Главная</NavLink>
 						</li>
-						<li className="navigation__item">
-							<NavLink className="navigation__link navigation__link_type_pages hover hover_type_link" to="/saved-movies">Сохранённые фильмы</NavLink>
+						<li className={`navigation__item ${modificator ? 'navigation__item_type_' + modificator : ''}`}>
+							<NavLink className={`navigation__link ${modificator ? 'navigation__link_type_' + modificator : ''} hover hover_type_link`} to="/movies">Фильмы</NavLink>
 						</li>
-						<li className="navigation__item navigation__item_type_profile">
-							<NavLink className="navigation__link navigation__link_type_profile hover hover_type_button" to="/profile">Аккаунт</NavLink>
+						<li className={`navigation__item ${modificator ? 'navigation__item_type_' + modificator : ''}`}>
+							<NavLink className={`navigation__link ${modificator ? 'navigation__link_type_' + modificator : ''} hover hover_type_link`} to="/saved-movies">Сохранённые фильмы</NavLink>
+						</li>
+						<li className={`navigation__item ${modificator ? 'navigation__item_type_' + modificator : ''}`}>
+						
 						</li>
 					</ul>
+					<button onClick={() => {navigate('/profile', {replace: true})}} className={`navigation__button ${modificator ? 'navigation__button_type_' + modificator : ''}  hover hover_type_button`} to="/profile">Аккаунт</button>
 				</nav>
 	);
 }

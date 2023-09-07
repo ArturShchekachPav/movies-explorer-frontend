@@ -64,7 +64,7 @@
   color: #fff;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .about-project {
     background-color: #FAFAFA;
     padding: 90px 0;
@@ -86,5 +86,43 @@
   .about-project__timeline {
     margin-top: 93px;
     grid-template-columns: 140fr 528fr;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .about-project {
+    padding: 70px 0;
+  }
+
+  .about-project__description {
+    grid-template-columns: 1fr;
+    margin-top: 61px;
+    gap: 56px;
+  }
+
+  .about-project__description-title {
+    color: #000;
+    font-size: 18px;
+    letter-spacing: -0.72px;
+    margin:  0 0 18px 0;
+  }
+
+  .about-project__description-paragraph {
+    font-size: 11px;
+    line-height: 145.455%;
+  }
+
+  .about-project__timeline {
+    margin-top: 59px;
+    grid-template-columns: 100fr 184fr;
+  }
+
+  .about-project__timeline-duration {
+    font-size: 11px;
+  }
+
+  .about-project__timeline-subject {
+    font-size: 11px;
+    margin: 11px 0 0 0;
   }
 }

@@ -80,3 +80,45 @@
 .profile__button_exit {
   color: #EE3465;
 }
+
+@media screen and (max-width: 768px) {
+  .profile {
+    padding-bottom: 269px;
+  }
+
+  .profile__greeting {
+    margin: 236px 0 0 0;
+  }
+
+  .profile__data-container {
+    margin: 96px auto 0 auto;
+  }
+
+  .profile__buttons {
+    margin-top: 210px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile__data-container {
+    padding: 0 30px;
+    box-sizing: border-box;
+    margin: 81px auto 0 auto;
+  }
+
+  .profile__greeting {
+    margin: 69px 0 0 0;
+  }
+
+  .profile__buttons {
+    margin-top: 379px;
+  }
+
+  .profile__button {
+    font-size: 12px;
+  }
+
+  .profile {
+    padding-bottom: 40px;
+  }
+}

@@ -1,10 +1,18 @@
 .navigation {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.navigation_main {
+.navigation_type_main {
   width: auto;
   margin-left: auto;
+}
+
+.navigation_type_sidebar {
+  flex-direction: column;
+  height: 100%;
 }
 
 .navigation__list {
@@ -16,12 +24,21 @@
   align-items: center;
   width: 100%;
 }
-.navigation__list_main {
+.navigation__list_type_main {
   gap: 30px;
 }
 
-.navigation__item_type_profile {
-  margin-left: auto;
+.navigation__list_type_sidebar {
+  flex-direction: column;
+  gap: 28px;
+}
+
+.navigation__item_type_sidebar:first-child {
+  display: block;
+}
+
+.navigation__item_type_header:first-child {
+  display: none;
 }
 
 .navigation__link {
@@ -48,18 +65,36 @@
   font-weight: 500;
 }
 
-.navigation__link_type_pages {
+.navigation__link_type_header {
   color: #000;
   font-size: 13px;
   font-weight: 400;
   line-height: 138.462%;
 }
 
-.navigation__link_type_pages.active {
+.navigation__link_type_sidebar {
+  color: #000;
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-bottom: 6px;
+}
+
+.navigation__link_type_header.active {
   font-weight: 500;
 }
 
-.navigation__link_type_profile {
+.navigation__link_type_sidebar.active {
+  padding-bottom: 6px;
+  border-bottom: 2px solid #000;
+  font-weight: 500;
+}
+
+.navigation__button {
   border-radius: 50px;
   border: 2px solid rgba(170, 170, 170, 0.2);
   display: flex;
@@ -70,13 +105,38 @@
   font-size: 14px;
   font-weight: 500;
   line-height: 114.286%;
+  background-color: transparent;
+  font-family: Inter;
 }
 
-.navigation__link_type_profile:before {
+.navigation__button:before {
   content: "";
   width: 12px;
   height: 14px;
   background-image: url(../../images/profile-link-icon.svg);
   background-size: cover;
   display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .navigation_type_header {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navigation__list_type_main {
+    gap: 14px;
+  }
+
+  .navigation__link_type_register {
+    font-size: 10px;
+    line-height: 160%;
+  }
+
+  .navigation__link_type_login {
+    padding: 7px 12px;
+    font-size: 10px;
+    line-height: 160%;
+  }
 }

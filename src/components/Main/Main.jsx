@@ -8,11 +8,11 @@ import Footer from '../Footer/Footer';
 import Promo from '../Promo/Promo';
 import './Main.css';
 
-function Main() {
+function Main({onSidebarClose}) {
 	return (
-		<div className="app__main">
-			<Header />
-			<main className="main">
+		<div className="main">
+			<Header onSidebarClose={onSidebarClose} />
+			<main>
 				<Promo />
 				<NavTab />
 				<AboutProject />

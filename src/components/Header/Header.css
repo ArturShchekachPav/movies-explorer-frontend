@@ -14,8 +14,33 @@
   height: 38px;
 }
 
-@media screen and (max-width: 768px) {
+.header__burger-menu {
+  display: none;
+  background-image: url(../../images/burger-menu.svg);
+  background-size: cover;
+  width: 28px;
+  height: 23px;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 1024px) {
   .header {
     padding: 18px 30px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header__burger-menu {
+    display: block;
+    margin-right: 8px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header {
+    padding: 18px 14px;
   }
 }

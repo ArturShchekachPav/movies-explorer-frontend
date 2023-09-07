@@ -36,7 +36,7 @@
 }
 
 .about-me__description {
-  font-feature-settings: 'clig' off, 'liga' off;
+  font-feature-settings: "clig" off, "liga" off;
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
@@ -61,7 +61,7 @@
   border-radius: 10px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .about-me {
     padding: 90px 0 50px 0;
   }
@@ -91,5 +91,48 @@
   .about-me__photo {
     max-width: 255px;
     aspect-ratio: 255/304;
+  }
+}
+
+
+@media  screen and (max-width: 600px) {
+  .about-me {
+    padding: 72px 0 35px 0;
+  }
+
+  .about-me__info {
+    flex-direction: column-reverse;
+    margin-top: 60px;
+    gap: 43px;
+  }
+
+  .about-me__container {
+    padding: 0 14px;
+  }
+
+  .about-me__photo {
+    max-width: none;
+    aspect-ratio: 292/352;
+  }
+
+  .about-me__name {
+    font-size: 30px;
+    letter-spacing: -1.2px;
+  }
+
+  .about-me__data {
+    font-size: 11px;
+    line-height: 145.455%;
+    margin: 24px 0 0 0;
+  }
+
+  .about-me__description {
+    font-size: 11px;
+    line-height: 145.455%;
+  }
+
+  .about-me__github {
+    font-size: 14px;
+    margin-top: 40px;
   }
 }

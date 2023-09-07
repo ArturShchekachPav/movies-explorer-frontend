@@ -52,7 +52,7 @@
   letter-spacing: -0.56px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .techs {
     padding: 90px 0;
   }
@@ -76,5 +76,38 @@
   .techs__list-item {
     font-size: 12px;
     letter-spacing: -0.48px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .techs {
+    padding: 70px 0;
+  }
+
+  .techs__title {
+    font-size: 30px;
+    letter-spacing: -1.2px;
+    margin: 62px 0 0 0;
+  }
+
+  .techs__subtitle {
+    font-size: 11px;
+    line-height: 145.455%;
+    letter-spacing: -0.44px;
+    margin: 25px auto 0 auto;
+  }
+
+  .techs__list {
+    display: grid;
+    grid-gap: 10px;
+    margin: 48px 0 0 0;
+    grid-gap: 10px;
+    grid-template-rows: repeat(auto-fill, auto);
+    grid-template-columns: repeat(auto-fill, 84px);
+  }
+
+  .techs__list-item {
+    width: 100%;
+    min-height: 57px;
   }
 }

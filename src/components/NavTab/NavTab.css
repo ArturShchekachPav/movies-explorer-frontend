@@ -1,5 +1,5 @@
 .nav-tab {
-  background: #FAFAFA;
+  background: #F5F5F5;
   padding: 24px 0;
 }
 
@@ -20,4 +20,15 @@
   font-weight: 500;
   line-height: 123.077%;
   text-decoration: underline;
+}
+
+@media screen and (max-width: 320px) {
+  .nav-tab__link {
+    font-size: 11px;
+    line-height: 145.455%;
+  }
+
+  .nav-tab__tabs {
+    gap: 24px;
+  }
 }

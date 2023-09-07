@@ -23,9 +23,27 @@
   align-items: center;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .promo {
     background-color: #DDDEE3;
     padding: 224px 0 240px 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+
+  .promo__title {
+    font-size: 31px;
+    margin: 0 10px;
+    background-size: 250px 250px;
+    line-height: 125.806%;
+    letter-spacing: -1.24px;
+
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .promo {
+    padding: 108px 0 142px 0;
   }
 }

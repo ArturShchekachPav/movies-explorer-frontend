@@ -117,3 +117,43 @@
   flex-direction: column;
   flex-grow: 1;
 }
+
+@media screen and (max-width: 768px) {
+  .register {
+    padding: 232px 0 232px 0;
+    max-width: 396px;
+    width: 100%;
+  }
+
+  .register__form {
+    min-height: 380px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .register {
+    padding: 56px 30px 30px 30px;
+    box-sizing: border-box;
+  }
+
+  .register__logo {
+    margin: auto;
+  }
+
+  .register__greeting {
+    text-align: center;
+    margin: 50px 0 0 0;
+  }
+
+  .register__form {
+    margin-top: 79px;
+  }
+
+  .register__button {
+    font-size: 12px;
+  }
+
+  .register__link, .register__text {
+    font-size: 12px;
+  }
+}

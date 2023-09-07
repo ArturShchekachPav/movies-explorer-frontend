@@ -4,10 +4,11 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import SearchForm from '../SearchForm/SearchForm';
 
-export function Movies() {
+export function Movies({onSidebarClose}) {
+	
 	return (
-		<div className="app__movies">
-			<Header />
+		<div className="movies">
+			<Header onSidebarClose={onSidebarClose} />
 			<SearchForm />
 			<MoviesCardList possibleMore={true}>
 				<MoviesCard image="https://s3-alpha-sig.figma.com/img/71a2/3794/3bfd6b9af4141d2ee15e36a186b073a7?Expires=1694390400&Signature=jNyAgTWPU2EWDsdpb44BO20q0b1p7ByngE3YnIdCtbqx7z~U4ahJfLrB57yJ-BUERwAha9f0t3zfzAOuczEstIHMEMVw7agbW6GYy-Hzn491-T6IWy-dBQSaFz7TtztRz6i870L3gqpksZLxaBTYTTUwkfTgvK79P4-uRXJWSPr~tTwSuacSDtFP786t09p4QFnl1klV7BjKJUvUg2JTE8bPQhcA4U6UOZ4c0uWZA99QUwW12XGxzQQMvDXkIIW6N3-yecCmW7ECbawCZ7574zo6E-TCr4detAU8UIX2DtSS8iR~cClUk1OvY4WjDkKGPWqTzCkKhbnEQk~FzBnicg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4" title="33 слова о дизайне" duration="1ч42м" />

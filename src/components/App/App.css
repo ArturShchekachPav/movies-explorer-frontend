@@ -1,9 +1,6 @@
-.app__main {
-  background-color: #DDDEE3;
-}
-
-.app__movies {
-  background-color: #FAFAFA;
+.app {
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
@@ -26,8 +23,14 @@
   opacity: 80%;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .container {
     padding: 0 50px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    padding: 0 18px;
   }
 }

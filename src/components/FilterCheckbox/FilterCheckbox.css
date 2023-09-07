@@ -35,8 +35,15 @@
   display: block;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .filter {
     gap: 15px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .filter {
+    font-size: 11px;
+    line-height: 163.636%;
   }
 }

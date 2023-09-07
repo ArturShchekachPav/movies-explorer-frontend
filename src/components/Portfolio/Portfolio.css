@@ -52,7 +52,7 @@
   right: 1px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .portfolio {
     background-color: #FAFAFA;
     padding: 41px 0 70px 0;
@@ -62,5 +62,31 @@
     letter-spacing: -1.12px;
     line-height: 178.571%;
     font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .portfolio {
+    padding: 35px 0 49px 0;
+  }
+
+  .portfolio__title {
+    font-size: 14px;
+    line-height: 142.857%;
+  }
+
+  .portfolio__project-link {
+    font-size: 18px;
+    line-height: 155.556%;
+    letter-spacing: -0.72px;
+  }
+
+  .portfolio__projects-list {
+    margin: 41px 0 0 0;
+  }
+
+  .portfolio__project-link::after {
+    top: 0;
+    right: 2px;
   }
 }

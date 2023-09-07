@@ -5,10 +5,10 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './SavedMovies.css';
 
-export function SavedMovies() {
+export function SavedMovies({onSidebarClose}) {
 	return (
 		<div className="saved-movies">
-			<Header />
+			<Header onSidebarClose={onSidebarClose} />
 			<main className="saved-movies__main">
 				<SearchForm />
 				<MoviesCardList>

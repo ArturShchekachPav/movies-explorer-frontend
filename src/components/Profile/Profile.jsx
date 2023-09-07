@@ -1,10 +1,10 @@
 import Header from '../Header/Header';
 import './Profile.css';
 
-export function Profile() {
+export function Profile({onSidebarClose}) {
 	return (
 		<div className="profile">
-			<Header />
+			<Header onSidebarClose={onSidebarClose} />
 			<h1 className="profile__greeting">Привет, Виталий!</h1>
 			<div className="profile__data-container">
 				<div className="profile__data-field">
