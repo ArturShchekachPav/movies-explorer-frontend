@@ -11,16 +11,16 @@ import './Main.css';
 function Main({onSidebarClose}) {
 	return (
 		<div className="main">
-			<Header onSidebarClose={onSidebarClose} />
+			<Header onSidebarClose={onSidebarClose}/>
 			<main>
-				<Promo />
-				<NavTab />
-				<AboutProject />
-				<Techs />
-				<AboutMe />
-				<Portfolio />
+				<Promo/>
+				<NavTab/>
+				<AboutProject/>
+				<Techs/>
+				<AboutMe/>
+				<Portfolio/>
 			</main>
-			<Footer />
+			<Footer/>
 		</div>
 	);
 }

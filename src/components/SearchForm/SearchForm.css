@@ -1,6 +1,6 @@
 .search__form {
   border-radius: 9px;
-  background: #FFF;
+  background: #fff;
   box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.08);
   display: flex;
   padding: 16px 30px 16px 19px;
@@ -28,21 +28,23 @@
   display: block;
   width: 100%;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Inter;
+  font-family: "Inter", sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: 111.111%;
   border: none;
   margin-right: 46px;
+  transition: all 0.5s linear;
 }
 
 .search__input:focus-visible {
   outline: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 10%);
 }
 
 .search__input::placeholder {
-  color: #A0A0A0;
+  color: #a0a0a0;
 }
 
 .search__button {
@@ -56,14 +58,14 @@
 }
 
 .search__form-divider {
-  background-color: #CBCBCB;
+  background-color: #cbcbcb;
   height: 40px;
   width: 1px;
   margin: 0 31px 0 19px;
 }
 
 .search__divider {
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   height: 1px;
   margin: 69px 0 10px 0;
 }
@@ -103,7 +105,7 @@
   .search__form-fieldset {
     padding: 19px;
     border-radius: 9px;
-    background-color: #FFF;
+    background-color: #fff;
     box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.08);
     margin-bottom: 45px;
     box-sizing: border-box;
