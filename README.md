@@ -5,4 +5,4 @@
 
 ## Выбранный макет - light-3
 
-Cсылка на макет: 
+Cсылка на макет: https://bestmoviesearcher.nomoredomainsicu.ru/
