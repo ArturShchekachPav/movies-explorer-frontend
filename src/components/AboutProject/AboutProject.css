@@ -11,7 +11,7 @@
 }
 
 .about-project__description-title {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
@@ -21,7 +21,7 @@
 }
 
 .about-project__description-paragraph {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -37,7 +37,7 @@
 
 .about-project__timeline-duration {
   padding: 10px 0;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -50,7 +50,7 @@
 
 .about-project__timeline-subject {
   color: #a0a0a0;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;

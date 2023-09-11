@@ -6,13 +6,17 @@ function NotFound() {
 	
 	return (
 		<div className="not-found">
-			<h1 className="not-found__title">404</h1>
-			<p className="not-found__subtitle">Страница не найдена</p>
-			<button
-				className="not-found__button hover hover_type_link"
-				onClick={() => navigate(-1)}
-			>Назад
-			</button>
+			<header className="not-found__header">
+				<h1 className="not-found__title">404</h1>
+				<p className="not-found__subtitle">Страница не найдена</p>
+			</header>
+			<main className="not-found__main">
+				<button
+					className="not-found__button hover hover_type_link"
+					onClick={() => navigate(-1)}
+				>Назад
+				</button>
+			</main>
 		</div>
 	);
 }

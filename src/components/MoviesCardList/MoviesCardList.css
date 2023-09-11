@@ -16,7 +16,7 @@
 
 .moviescardlist__more-button {
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -36,7 +36,7 @@
 
 .moviescardlist__title {
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   margin: 70px 0;
   font-weight: 400;
   font-size: 40px;

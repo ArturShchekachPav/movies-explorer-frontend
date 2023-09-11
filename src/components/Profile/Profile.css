@@ -6,9 +6,15 @@
   flex-direction: column;
 }
 
+.profile__main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .profile__greeting {
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
@@ -31,7 +37,7 @@
 }
 
 .profile__data-label {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 11px;
   font-style: normal;
   font-weight: 500;
@@ -41,19 +47,32 @@
 .profile__data-input, .profile__data-input:disabled {
   color: #000;
   text-align: right;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  border: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid transparent;
+  margin-bottom: -1px;
   padding: 0;
   background-color: transparent;
+  transition: all 0.5s linear;
+}
+
+.profile__data-input {
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .profile__data-input:focus-visible {
+  border-bottom: 1px solid #3456f3;
   outline: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 10%);
+}
+
+.profile__data-input::placeholder {
+  color: #a0a0a0;
 }
 
 .profile__data-divider {
@@ -70,6 +89,7 @@
   margin-top: 50px;
   justify-content: flex-end;
   flex-grow: 1;
+  position: relative;
 }
 
 .profile__button {
@@ -78,7 +98,7 @@
   background-color: transparent;
   padding: 0;
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;

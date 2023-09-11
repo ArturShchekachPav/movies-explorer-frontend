@@ -61,7 +61,7 @@ function Sidebar({
 				<button
 					type="button"
 					aria-label="Закрыть меню"
-					className="sidebar__close-button"
+					className="sidebar__close-button hover hover_type_button"
 					onClick={() => onClose(false)}
 				></button>
 			</div>

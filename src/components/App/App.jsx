@@ -37,7 +37,11 @@ function App() {
 				/>
 				<Route
 					path="/profile"
-					element={<Profile onSidebarClose={setIsSidebarOpen}/>}
+					element={<Profile
+						onSidebarClose={setIsSidebarOpen}
+						name="Виталий"
+						email="pochta@yandex.ru"
+					/>}
 				/>
 				<Route
 					path="/"

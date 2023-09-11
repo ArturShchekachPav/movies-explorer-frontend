@@ -17,12 +17,18 @@
 }
 
 .register__greeting {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   margin: 40px 0 0 0;
+}
+
+.register__main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .register__form {
@@ -35,7 +41,7 @@
 
 .register__label {
   color: #a0a0a0;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -43,7 +49,7 @@
 }
 
 .register__input {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -64,7 +70,11 @@
   outline: none;
 }
 
-.register__input:invalid {
+.register__input::placeholder {
+  color: #a0a0a0;
+}
+
+.register__input_error {
   color: #ee3465;
   border-bottom: 1px solid #ee3465;
 }
@@ -72,7 +82,7 @@
 .register__error {
   position: absolute;
   color: #ee3465;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 10px;
   font-style: normal;
   font-weight: 400;
@@ -90,7 +100,7 @@
   width: 100%;
   color: #fff;
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -108,7 +118,7 @@
   text-align: center;
   margin: 16px 0 0 0;
   color: #a0a0a0;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;

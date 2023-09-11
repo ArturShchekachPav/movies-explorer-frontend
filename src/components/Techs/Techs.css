@@ -5,7 +5,7 @@
 
 .techs__title {
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 50px;
   font-style: normal;
   font-weight: 400;
@@ -16,7 +16,7 @@
 
 .techs__subtitle {
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -44,7 +44,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;

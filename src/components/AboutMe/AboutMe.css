@@ -16,7 +16,7 @@
 }
 
 .about-me__name {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 50px;
   font-style: normal;
   font-weight: 400;
@@ -27,7 +27,7 @@
 
 .about-me__data {
   font-feature-settings: "clig" off, "liga" off;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
@@ -37,7 +37,7 @@
 
 .about-me__description {
   font-feature-settings: "clig" off, "liga" off;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -47,7 +47,7 @@
 
 .about-me__github {
   color: #000;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
