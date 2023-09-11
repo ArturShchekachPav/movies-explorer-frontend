@@ -21,11 +21,11 @@ export function Profile({
 			email: email
 		}
 	});
-	
+
 	function onSubmit() {
 		setIsEditing(false);
 	}
-	
+
 	return (
 		<div className="profile">
 			<Header onSidebarClose={onSidebarClose}/>
@@ -42,6 +42,7 @@ export function Profile({
 							className="profile__data-input"
 							type="text"
 							maxLength="30"
+							minLength="2"
 							placeholder="Имя"
 							{...register('name',
 								{
@@ -61,6 +62,7 @@ export function Profile({
 							className="profile__data-input"
 							type="email"
 							placeholder="Email"
+							pattern="\S+@\S+\.\S+"
 							{...register('email',
 								{
 									required: true,

@@ -7,9 +7,9 @@ import Navigation from '../Navigation/Navigation';
 
 function Header({onSidebarClose}) {
 	const location = useLocation();
-	
+
 	return (
-		<div className="header container">
+		<header className="header container">
 			<NavLink
 				className="header__logo hover_type_link hover"
 				to="/"
@@ -21,7 +21,7 @@ function Header({onSidebarClose}) {
 				className="header__burger-menu hover hover_type_button"
 				aria-label="Открыть меню"
 			></button>}
-		</div>
+		</header>
 	);
 }
 

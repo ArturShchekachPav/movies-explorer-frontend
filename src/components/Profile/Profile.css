@@ -62,13 +62,13 @@
   transition: all 0.5s linear;
 }
 
-.profile__data-input {
-  border-bottom: 1px solid #e8e8e8;
-}
-
 .profile__data-input:focus-visible {
   border-bottom: 1px solid #3456f3;
   outline: none;
+}
+
+.profile__data-input:invalid {
+  color: #ee3465;
 }
 
 .profile__data-input::placeholder {
