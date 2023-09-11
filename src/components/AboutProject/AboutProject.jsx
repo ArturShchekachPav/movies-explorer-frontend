@@ -1,11 +1,14 @@
 import SectionTitle from '../SectionTitle/SectionTitle';
-import "./AboutProject.css";
+import './AboutProject.css';
 
 function AboutProject() {
 	return (
-		<section className="about-project" id="about-project">
+		<section
+			className="about-project"
+			id="about-project"
+		>
 			<div className="container">
-				<SectionTitle title="О проекте" />
+				<SectionTitle title="О проекте"/>
 				<article className="about-project__description">
 					<div className="about-project__description-column">
 						<h3 className="about-project__description-title">Дипломный проект включал 5 этапов</h3>

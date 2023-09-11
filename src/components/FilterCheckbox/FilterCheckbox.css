@@ -1,5 +1,5 @@
 .filter {
-  font-family: Inter;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
@@ -18,13 +18,19 @@
 }
 
 .filter__visible-checkbox {
-  background-color: #2BE080;
+  background-color: #ebebeb;
   width: 34px;
   border-radius: 7px;
   padding: 2px;
   box-sizing: border-box;
   display: flex;
+  justify-content: flex-start;
+  transition: all 0.5s linear;
+}
+
+.filter__checkbox:checked + .filter__visible-checkbox {
   justify-content: flex-end;
+  background-color: #2be080;
 }
 
 .filter__checkbox-indicator {

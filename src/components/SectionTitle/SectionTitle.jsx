@@ -1,4 +1,4 @@
-import "./SectionTitle.css";
+import './SectionTitle.css';
 
 function SectionTitle({title}) {
 	return (

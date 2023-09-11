@@ -1,5 +1,5 @@
 .about-project {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   padding: 110px 0;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .about-project__description-title {
-  font-family: Inter;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
@@ -21,7 +21,7 @@
 }
 
 .about-project__description-paragraph {
-  font-family: Inter;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -37,7 +37,7 @@
 
 .about-project__timeline-duration {
   padding: 10px 0;
-  font-family: Inter;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -45,12 +45,12 @@
   margin: 0;
   display: block;
   text-align: center;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
 }
 
 .about-project__timeline-subject {
-  color: #A0A0A0;
-  font-family: Inter;
+  color: #a0a0a0;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -60,13 +60,13 @@
 }
 
 .about-project__timeline-duration_fill {
-  background-color: #3456F3;
+  background-color: #3456f3;
   color: #fff;
 }
 
 @media screen and (max-width: 1024px) {
   .about-project {
-    background-color: #FAFAFA;
+    background-color: #fafafa;
     padding: 90px 0;
   }
 
@@ -104,7 +104,7 @@
     color: #000;
     font-size: 18px;
     letter-spacing: -0.72px;
-    margin:  0 0 18px 0;
+    margin: 0 0 18px 0;
   }
 
   .about-project__description-paragraph {

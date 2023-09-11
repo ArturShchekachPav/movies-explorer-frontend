@@ -1,18 +1,17 @@
 .footer {
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   padding: 79px 0 20px 0;
 }
 
 .footer__title {
-  color: #A0A0A0;
+  color: #a0a0a0;
   text-align: center;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Inter;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  text-align: center;
   margin: 0;
 }
 
@@ -24,7 +23,7 @@
 
 .footer__year {
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Inter;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
@@ -35,8 +34,8 @@
 .footer__link {
   color: #000;
   text-align: right;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Inter;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
