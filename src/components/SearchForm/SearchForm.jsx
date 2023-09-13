@@ -1,18 +1,39 @@
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import {useForm} from 'react-hook-form';
+import moviesApi from '../../utils/MoviesApi';
 
 function SearchForm() {
+	const {
+		register,
+		handleSubmit,
+		formState: {errors}
+	} = useForm({
+		mode: "onSubmit",
+		defaultValues: {search: ''}
+	});
+	
+	function onSubmit() {
+		moviesApi.getAllMovies()
+			.then(res => {
+				console.log(res);
+			})
+	}
+	
 	return (
 		<section className="search container">
-			<form className="search__form">
+			<form className="search__form" onSubmit={handleSubmit(onSubmit)}>
 				<fieldset className="search__form-fieldset">
 					<div className="search__icon"></div>
-					<input
-						type="text"
-						placeholder="Фильм"
-						className="search__input"
-						name="search"
-					/>
+					<label className="search__label">
+						<input
+							type="text"
+							placeholder="Фильм"
+							className="search__input"
+							{...register("search", {required: true})}
+						/>
+						{errors?.search && <span className="search__error">Нужно ввести ключевое слово</span>}
+					</label>
 					<button
 						type="submit"
 						aria-label="Искать"
