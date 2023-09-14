@@ -1,9 +1,20 @@
-import {Link} from 'react-router-dom';
+import {
+	Link,
+	useNavigate
+} from 'react-router-dom';
 import './Register.css';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
+import mainApi from '../../utils/MainApi';
+import {useState} from 'react';
 
 function Register() {
+	const navigate = useNavigate();
+	const [apiError, setApiError] = useState({
+		message: '',
+		show: false
+	});
+	
 	const {
 		register,
 		handleSubmit,
@@ -11,7 +22,8 @@ function Register() {
 			errors,
 			isValid,
 			isDirty
-		}
+		},
+		reset
 	} = useForm({
 		mode: 'onChange',
 		defaultValues: {
@@ -21,8 +33,32 @@ function Register() {
 		}
 	});
 	
+	function handleRegister({
+		name,
+		email,
+		password
+	}) {
+		return mainApi.register(name,
+			email,
+			password
+		)
+			.then(() => {
+				reset();
+				navigate('/sing-in',
+					{replace: true}
+				);
+			})
+			.catch(err => {
+				console.log(err);
+				setApiError({
+					message: err.message,
+					show: true
+				});
+			});
+	}
+	
 	function onSubmit(data) {
-		alert(data);
+		return handleRegister(data);
 	}
 	
 	return (
@@ -39,6 +75,7 @@ function Register() {
 					className="register__form"
 					name="register"
 					onSubmit={handleSubmit(onSubmit)}
+					noValidate
 				>
 					<fieldset className="register__fieldset">
 						<label
@@ -103,8 +140,8 @@ function Register() {
 					</fieldset>
 					<div className="register__button-container">
 						<ApiError
-							message="При обновлении профиля произошла ошибка."
-							show={false}
+							message={apiError.message}
+							show={apiError.show}
 						/>
 						<button
 							type="submit"

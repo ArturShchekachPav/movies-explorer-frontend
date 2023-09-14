@@ -4,6 +4,13 @@
   border-radius: 12px;
   box-sizing: border-box;
   overflow: hidden;
+  position: relative;
+}
+
+.movie-card__link {
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
 .movie-card__image {
@@ -22,13 +29,22 @@
   margin: 14px 12px;
 }
 
+.movie-card__info {
+  overflow: hidden;
+}
+
 .movie-card__title {
   font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin: 0;
+  margin: 0 10px 0 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  z-index: 1;
+  position: relative;
 }
 
 .movie-card__duration {
@@ -39,16 +55,20 @@
   font-weight: 400;
   line-height: normal;
   margin: 10px 0 0 0;
+  z-index: 1;
+  position: relative;
 }
 
 .movie-card__button {
   background-image: url(../../images/saved-icon.svg);
   background-size: cover;
-  width: 16px;
+  min-width: 16px;
   height: 16px;
   padding: 0;
   background-color: transparent;
   border: none;
+  z-index: 1;
+  position: relative;
 }
 
 .movie-card__button_saved {

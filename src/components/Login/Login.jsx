@@ -1,8 +1,17 @@
-import {Link} from 'react-router-dom';
+import {
+	Link
+} from 'react-router-dom';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
+import mainApi from '../../utils/MainApi';
+import {useState} from 'react';
 
-function Login() {
+function Login({handleTokenCheck}) {
+	const [apiError, setApiError] = useState({
+		message: '',
+		show: false
+	});
+	
 	const {
 		register,
 		handleSubmit,
@@ -10,7 +19,8 @@ function Login() {
 			errors,
 			isValid,
 			isDirty
-		}
+		},
+		reset
 	} = useForm({
 		mode: 'onChange',
 		defaultValues: {
@@ -19,8 +29,26 @@ function Login() {
 		}
 	});
 	
+	const handleAuthorize = ({
+		email,
+		password
+	}) => {
+		return mainApi.login(email,
+			password
+		)
+			.then(() => handleTokenCheck())
+			.then(() => reset())
+			.catch(err => {
+				console.log(err);
+				setApiError({
+					message: err.message,
+					show: true
+				});
+			});
+	};
+	
 	function onSubmit(data) {
-		alert(data);
+		return handleAuthorize(data);
 	}
 	
 	return (
@@ -37,6 +65,7 @@ function Login() {
 					className="register__form"
 					name="login"
 					onSubmit={handleSubmit(onSubmit)}
+					noValidate
 				>
 					<fieldset className="register__fieldset">
 						<label
@@ -78,8 +107,8 @@ function Login() {
 					</fieldset>
 					<div className="register__button-container">
 						<ApiError
-							message="При обновлении профиля произошла ошибка."
-							show={false}
+							message={apiError.message}
+							show={apiError.show}
 						/>
 						<button
 							type="submit"

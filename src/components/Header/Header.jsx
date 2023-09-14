@@ -7,7 +7,7 @@ import Navigation from '../Navigation/Navigation';
 
 function Header({onSidebarClose}) {
 	const location = useLocation();
-
+	
 	return (
 		<header className="header container">
 			<NavLink

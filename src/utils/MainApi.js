@@ -9,7 +9,7 @@ class MainApi {
 			return res.json();
 		}
 		
-		return Promise.reject(`Ошибка: ${res.status}`);
+		return res.json().then(err => Promise.reject(err));
 	}
 	
 	register(name, email, password) {
@@ -107,8 +107,8 @@ class MainApi {
 			.then(this._checkResponse);
 	}
 	
-	deleteMovie(moviesId) {
-		fetch(this.baseUrl + '/movie' + moviesId, {
+	deleteMovie(movieId) {
+		return fetch(this.baseUrl + '/movies/' + movieId.toString(), {
 			method: 'DELETE',
 			credentials: 'include'
 		})
@@ -116,7 +116,7 @@ class MainApi {
 	}
 }
 
-const mainApi = new MainApi({baseUrl: 'http://localhost:3005', headers: {
+const mainApi = new MainApi({baseUrl: 'http://localhost:3005/api', headers: {
 		'Content-Type': 'application/json',
 	}});
 

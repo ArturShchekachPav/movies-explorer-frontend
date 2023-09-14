@@ -1,15 +1,25 @@
 import Header from '../Header/Header';
 import './Profile.css';
-import {useState} from 'react';
+import {
+	useState,
+	useContext
+} from 'react';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
+import mainApi from '../../utils/MainApi';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 export function Profile({
 	onSidebarClose,
-	name,
-	email
+	setUserData
 }) {
+	const {
+		email,
+		name
+	} = useContext(CurrentUserContext);
+	
 	const [isEditing, setIsEditing] = useState(false);
+	
 	const {
 		register,
 		handleSubmit,
@@ -21,11 +31,25 @@ export function Profile({
 			email: email
 		}
 	});
-
-	function onSubmit() {
-		setIsEditing(false);
+	
+	function handleProfileDataUpdate({
+		email,
+		name
+	}) {
+		mainApi.editProfileData(name,
+			email
+		)
+			.then((newUserData) => {
+				setUserData(newUserData);
+			})
+			.then(() => setIsEditing(false))
+			.catch(err => console.log(err));
 	}
-
+	
+	function onSubmit(data) {
+		handleProfileDataUpdate(data);
+	}
+	
 	return (
 		<div className="profile">
 			<Header onSidebarClose={onSidebarClose}/>
@@ -35,6 +59,7 @@ export function Profile({
 					className="profile__data-container"
 					name="profile-edit"
 					onSubmit={handleSubmit(onSubmit)}
+					noValidate
 				>
 					<div className="profile__data-field">
 						<label className="profile__data-label">Имя</label>
