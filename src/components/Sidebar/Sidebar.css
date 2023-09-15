@@ -8,6 +8,7 @@
   justify-content: flex-end;
   visibility: hidden;
   transition: visibility 1s linear;
+  z-index: 2;
 }
 
 .sidebar_open {

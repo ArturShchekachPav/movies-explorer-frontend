@@ -1,24 +1,24 @@
 import Header from '../Header/Header';
 import './Profile.css';
 import {
-	useState,
 	useContext
 } from 'react';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
-import mainApi from '../../utils/MainApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 export function Profile({
 	onSidebarClose,
-	setUserData
+	isEditing,
+	onSubmit,
+	setIsEditing,
+	logOut
 }) {
-	const {
-		email,
-		name
-	} = useContext(CurrentUserContext);
 	
-	const [isEditing, setIsEditing] = useState(false);
+	const {
+		name,
+		email
+	} = useContext(CurrentUserContext);
 	
 	const {
 		register,
@@ -32,27 +32,12 @@ export function Profile({
 		}
 	});
 	
-	function handleProfileDataUpdate({
-		email,
-		name
-	}) {
-		mainApi.editProfileData(name,
-			email
-		)
-			.then((newUserData) => {
-				setUserData(newUserData);
-			})
-			.then(() => setIsEditing(false))
-			.catch(err => console.log(err));
-	}
-	
-	function onSubmit(data) {
-		handleProfileDataUpdate(data);
-	}
-	
 	return (
 		<div className="profile">
-			<Header onSidebarClose={onSidebarClose}/>
+			<Header
+				onSidebarClose={onSidebarClose}
+				isLoggedIn={true}
+			/>
 			<main className="profile__main">
 				<h1 className="profile__greeting">Привет, {name}!</h1>
 				<form
@@ -107,6 +92,7 @@ export function Profile({
 						</button>
 						<button
 							type="button"
+							onClick={() => logOut()}
 							className={`profile__button ${!isEditing && 'profile__button_active'} profile__button_exit hover_type_button hover`}
 						>Выйти из аккаунта
 						</button>

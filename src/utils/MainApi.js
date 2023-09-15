@@ -64,7 +64,8 @@ class MainApi {
 				name,
 				email
 			})
-		});
+		})
+			.then(this._checkResponse);
 	}
 	
 	getMovies() {
@@ -116,7 +117,7 @@ class MainApi {
 	}
 }
 
-const mainApi = new MainApi({baseUrl: 'http://localhost:3005/api', headers: {
+const mainApi = new MainApi({baseUrl: 'http://localhost:3005', headers: {
 		'Content-Type': 'application/json',
 	}});
 

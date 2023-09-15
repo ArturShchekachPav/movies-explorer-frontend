@@ -1,78 +1,18 @@
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import {useForm} from 'react-hook-form';
-import moviesApi from '../../utils/MoviesApi';
-import {useEffect} from 'react';
 
-function SearchForm({setMoviesList}) {
-	const {
-		register,
-		handleSubmit,
-		setValue,
-		formState: {errors}
-	} = useForm({
-		mode: 'onSubmit',
-		defaultValues: {
-			search: '',
-			shortFilm: ''
-		}
-	});
+function SearchForm({
+	onSubmit,
+	inputRegister,
+	errors
+}) {
 	
-	useEffect(() => {
-			const lastSearch = JSON.parse(localStorage.getItem('lastSearch'));
-			
-			if (lastSearch) {
-				setValue('search',
-					lastSearch.search
-				);
-				setValue('shortFilm',
-					lastSearch.shortFilm
-				);
-			}
-		},
-		[]
-	);
-	
-	function onSubmit(searchData) {
-		const {
-			search,
-			shortFilm
-		} = searchData;
-		
-		moviesApi.getAllMovies()
-			.then(allMovies => {
-				const foundMovies = allMovies.filter(({
-					nameRU,
-					nameEN,
-					duration
-				}) => {
-					if (shortFilm) {
-						return (nameRU.toLowerCase()
-							.includes(search.toLowerCase()) || nameEN.toLowerCase()
-							.includes(search.toLowerCase())) && (duration <= 40);
-					}
-					
-					return nameRU.toLowerCase()
-						.includes(search.toLowerCase()) || nameEN.toLowerCase()
-						.includes(search.toLowerCase());
-				});
-				
-				setMoviesList(foundMovies);
-				
-				localStorage.setItem('foundMovies',
-					JSON.stringify(foundMovies)
-				);
-				localStorage.setItem('lastSearch',
-					JSON.stringify(searchData)
-				);
-			});
-	}
 	
 	return (
 		<section className="search container">
 			<form
 				className="search__form"
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={onSubmit}
 				noValidate
 			>
 				<fieldset className="search__form-fieldset">
@@ -82,7 +22,7 @@ function SearchForm({setMoviesList}) {
 							type="text"
 							placeholder="Фильм"
 							className="search__input"
-							{...register('search',
+							{...inputRegister('search',
 								{required: true}
 							)}
 						/>
@@ -95,7 +35,7 @@ function SearchForm({setMoviesList}) {
 					></button>
 				</fieldset>
 				<div className="search__form-divider"></div>
-				<FilterCheckbox inputRegister={register}/>
+				<FilterCheckbox inputRegister={inputRegister}/>
 			</form>
 			<div className="search__divider"></div>
 		</section>

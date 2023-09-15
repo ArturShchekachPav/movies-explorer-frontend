@@ -30,7 +30,9 @@ function MoviesCard({
 				</div>
 				<button
 					onClick={() => {
-						savedStatus ? onDelete(savedId) : onSave(movieData);
+						savedStatus ?
+							onDelete(savedId) :
+							onSave(movieData);
 					}}
 					aria-label={location.pathname === '/saved-movies' ?
 						'Удалить фильм' :

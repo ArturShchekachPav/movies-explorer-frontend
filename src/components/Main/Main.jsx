@@ -8,10 +8,16 @@ import Footer from '../Footer/Footer';
 import Promo from '../Promo/Promo';
 import './Main.css';
 
-function Main({onSidebarClose}) {
+function Main({
+	onSidebarClose,
+	isLoggedIn
+}) {
 	return (
 		<div className="main">
-			<Header onSidebarClose={onSidebarClose}/>
+			<Header
+				onSidebarClose={onSidebarClose}
+				isLoggedIn={isLoggedIn}
+			/>
 			<main>
 				<Promo/>
 				<NavTab/>

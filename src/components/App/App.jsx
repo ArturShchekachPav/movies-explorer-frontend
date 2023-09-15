@@ -25,42 +25,76 @@ function App() {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [currentUser, setCurrentUser] = useState({});
 	const [savedMovies, setSavedMovies] = useState([]);
+	const [isProfileEditing, setIsProfileEditing] = useState(false);
 	
 	const navigate = useNavigate();
 	
-	const handleTokenCheck = () => {
-		Promise.all([mainApi.getProfileData(), mainApi.getMovies()])
+	const getProfileData = () => {
+		return Promise.all([mainApi.getProfileData(),
+			mainApi.getMovies()
+		])
 			.then(([userData, movies]) => {
 				setCurrentUser(userData);
 				setIsLoggedIn(true);
 				setSavedMovies(movies);
-				navigate('/movies',
-					{replace: true}
-				);
 			})
 			.catch(err => {
 				console.log(err);
 			});
+	}
+	
+	const handleTokenCheck = () => {
+		getProfileData();
 	};
 	
 	useEffect(handleTokenCheck,
 		[]
 	);
 	
-	 const handleDeleteMovieCard = (movieId) => {
-		 return mainApi.deleteMovie(movieId)
-			 .then(() => {
-				 setSavedMovies((state) => state.filter((movie) => movie._id !== movieId));
-			 })
-			 .catch(err => console.log(err));
-	}
+	const handleDeleteMovieCard = (movieId) => {
+		return mainApi.deleteMovie(movieId)
+			.then(() => {
+				setSavedMovies((state) => state.filter((movie) => movie._id !== movieId));
+			})
+			.catch(err => console.log(err));
+	};
 	
 	const handleSaveMovieCard = (movieData) => {
 		return mainApi.createMovie(movieData)
 			.then(newMovie => {
-				setSavedMovies([newMovie, ...savedMovies]);
+				setSavedMovies([newMovie,
+					...savedMovies
+				]);
 			})
 			.catch(err => console.log(err));
+	};
+	
+	function handleProfileDataUpdate({
+		email,
+		name
+	}) {
+		mainApi.editProfileData(name,
+			email
+		)
+			.then((newUserData) => {
+				setCurrentUser(newUserData);
+			})
+			.then(() => setIsProfileEditing(false))
+			.catch(err => console.log(err));
+	}
+	
+	function handleSingOut() {
+		mainApi.logout()
+			.then(() => {
+				setIsLoggedIn(false);
+				navigate('/sing-in',
+					{replace: true}
+				);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+		
 	}
 	
 	return (
@@ -73,19 +107,28 @@ function App() {
 					/>
 					<Route
 						path="/sing-in"
-						element={<Login handleTokenCheck={handleTokenCheck}/>}
+						element={<Login getProfileData={getProfileData} isLoggedIn={isLoggedIn}/>}
 					/>
 					<Route
 						path="/movies"
 						element={<ProtectedRoute
-							element={<Movies onSidebarClose={setIsSidebarOpen} savedMovies={savedMovies} onMovieDelete={handleDeleteMovieCard} onSaveMovie={handleSaveMovieCard}/>}
+							element={<Movies
+								onSidebarClose={setIsSidebarOpen}
+								savedMovies={savedMovies}
+								onMovieDelete={handleDeleteMovieCard}
+								onSaveMovie={handleSaveMovieCard}
+							/>}
 							isLoggedIn={isLoggedIn}
 						/>}
 					/>
 					<Route
 						path="/saved-movies"
 						element={<ProtectedRoute
-							element={<SavedMovies onSidebarClose={setIsSidebarOpen} savedMovies={savedMovies}  onMovieDelete={handleDeleteMovieCard}/>}
+							element={<SavedMovies
+								onSidebarClose={setIsSidebarOpen}
+								savedMovies={savedMovies}
+								onMovieDelete={handleDeleteMovieCard}
+							/>}
 							isLoggedIn={isLoggedIn}
 						/>}
 					/>
@@ -94,14 +137,20 @@ function App() {
 						element={<ProtectedRoute
 							element={<Profile
 								onSidebarClose={setIsSidebarOpen}
-								setUserData={setCurrentUser}
+								onSubmit={handleProfileDataUpdate}
+								isEditing={isProfileEditing}
+								setIsEditing={setIsProfileEditing}
+								logOut={handleSingOut}
 							/>}
 							isLoggedIn={isLoggedIn}
 						/>}
 					/>
 					<Route
 						path="/"
-						element={<Main onSidebarClose={setIsSidebarOpen}/>}
+						element={<Main
+							onSidebarClose={setIsSidebarOpen}
+							isLoggedIn={isLoggedIn}
+						/>}
 					/>
 					<Route
 						path="/*"

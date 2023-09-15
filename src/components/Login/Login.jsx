@@ -1,16 +1,19 @@
 import {
-	Link
+	Link,
+	useNavigate
 } from 'react-router-dom';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
 import mainApi from '../../utils/MainApi';
 import {useState} from 'react';
 
-function Login({handleTokenCheck}) {
+function Login({getProfileData}) {
 	const [apiError, setApiError] = useState({
 		message: '',
 		show: false
 	});
+	
+	const navigate = useNavigate();
 	
 	const {
 		register,
@@ -36,8 +39,13 @@ function Login({handleTokenCheck}) {
 		return mainApi.login(email,
 			password
 		)
-			.then(() => handleTokenCheck())
-			.then(() => reset())
+			.then(() => getProfileData()
+				.then(() => {
+					navigate('/movies',
+						{replace: true}
+					);
+					reset();
+				}))
 			.catch(err => {
 				console.log(err);
 				setApiError({
