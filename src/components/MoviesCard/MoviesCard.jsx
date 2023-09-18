@@ -26,7 +26,9 @@ function MoviesCard({
 			<div className="movie-card__data">
 				<div className="movie-card__info">
 					<h2 className="movie-card__title">{movieData.nameRU}</h2>
-					<p className="movie-card__duration">{`${Math.floor(movieData.duration / 60) ? Math.floor(movieData.duration / 60) + 'ч' : ''}${movieData.duration % 60}м`}</p>
+					<p className="movie-card__duration">{`${Math.floor(movieData.duration / 60) ?
+						Math.floor(movieData.duration / 60) + 'ч' :
+						''}${movieData.duration % 60}м`}</p>
 				</div>
 				<button
 					onClick={() => {

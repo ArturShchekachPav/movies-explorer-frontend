@@ -1,9 +1,6 @@
 import './MoviesCardList.css';
 
-function MoviesCardList({
-	children,
-	possibleMore
-}) {
+function MoviesCardList({children}) {
 	return children ?
 		(
 			<section className="moviescardlist">

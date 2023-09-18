@@ -1,13 +1,16 @@
 import {
-	Link,
-	useNavigate
+	Link
 } from 'react-router-dom';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
 import mainApi from '../../utils/MainApi';
 import {useState} from 'react';
 
-function Login({handleAuthorize, isLoading, setIsLoading}) {
+function Login({
+	handleTokenCheck,
+	isLoading,
+	setIsLoading
+}) {
 	const [apiError, setApiError] = useState({
 		message: '',
 		show: false
@@ -30,8 +33,15 @@ function Login({handleAuthorize, isLoading, setIsLoading}) {
 		}
 	});
 	
-	function onSubmit(data) {
-		return handleAuthorize(data)
+	function handleAuthorize({
+		email,
+		password
+	}) {
+		setIsLoading(true);
+		return mainApi.login(email,
+			password
+		)
+			.then(() => handleTokenCheck())
 			.catch(err => {
 				console.log(err);
 				setApiError({
@@ -40,7 +50,7 @@ function Login({handleAuthorize, isLoading, setIsLoading}) {
 				});
 			})
 			.finally(() => {
-				setIsLoading(false)
+				setIsLoading(false);
 				reset();
 			});
 	}
@@ -58,7 +68,7 @@ function Login({handleAuthorize, isLoading, setIsLoading}) {
 				<form
 					className="register__form"
 					name="login"
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(handleAuthorize)}
 					noValidate
 				>
 					<fieldset className="register__fieldset">
@@ -108,7 +118,9 @@ function Login({handleAuthorize, isLoading, setIsLoading}) {
 							type="submit"
 							className="register__button hover hover_type_button"
 							disabled={!isDirty || !isValid || isLoading}
-						>{isLoading ? 'Авторизация...' : 'Войти'}
+						>{isLoading ?
+							'Авторизация...' :
+							'Войти'}
 						</button>
 					</div>
 				</form>

@@ -9,11 +9,13 @@ import {
 	useState
 } from 'react';
 import filterMovies from '../../utils/filterMovies';
+import Preloader from '../Preloader/Preloader';
 
 export function SavedMovies({
 	children,
 	savedMovies,
-	onMovieDelete
+	onMovieDelete,
+	isLoading
 }) {
 	const [moviesList, setMoviesList] = useState(savedMovies);
 	
@@ -30,11 +32,15 @@ export function SavedMovies({
 	});
 	
 	useEffect(() => {
-		setMoviesList(moviesList.filter((movie) => savedMovies.find((savedMovie) => savedMovie.movieId === movie.movieId)));
-	}, [savedMovies])
+			setMoviesList(moviesList.filter((movie) => savedMovies.find((savedMovie) => savedMovie.movieId === movie.movieId)));
+		},
+		[savedMovies]
+	);
 	
 	function onSubmit(searchData) {
-		const foundMovies = filterMovies(savedMovies, searchData);
+		const foundMovies = filterMovies(savedMovies,
+			searchData
+		);
 		
 		setMoviesList(foundMovies);
 	}
@@ -49,15 +55,18 @@ export function SavedMovies({
 					errors={errors}
 					inputRegister={register}
 				/>
-				<MoviesCardList>
-					{moviesList?.length ? moviesList.map((movie) => <MoviesCard
-						movieData={movie}
-						savedStatus={true}
-						savedId={movie._id}
-						key={movie.movieId}
-						onDelete={onMovieDelete}
-					/>) : <h1>Нет сохраненных фильмов</h1>}
-				</MoviesCardList>
+				{moviesList?.length ? (isLoading ?
+					(<Preloader/>) :
+					(<MoviesCardList>
+				{savedMovies?.length &&
+					moviesList.map((movie) => <MoviesCard
+					movieData={movie}
+					savedStatus={true}
+					savedId={movie._id}
+					key={movie.movieId}
+					onDelete={onMovieDelete}
+					/>)}
+					</MoviesCardList>)) : ''}
 			</main>
 			<Footer/>
 		</div>

@@ -1,16 +1,23 @@
 import {
-	Link
+	Link,
+	useNavigate
 } from 'react-router-dom';
 import './Register.css';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
 import {useState} from 'react';
+import mainApi from '../../utils/MainApi';
 
-function Register({isLoading, handleRegister, setIsLoading}) {
+function Register({
+	isLoading,
+	setIsLoading
+}) {
 	const [apiError, setApiError] = useState({
 		message: '',
 		show: false
 	});
+	
+	const navigate = useNavigate();
 	
 	const {
 		register,
@@ -30,15 +37,27 @@ function Register({isLoading, handleRegister, setIsLoading}) {
 		}
 	});
 	
-	function onSubmit(data) {
-		handleRegister(data)
+	function handleRegister({
+		name,
+		email,
+		password
+	}) {
+		setIsLoading(true);
+		
+		return mainApi.register(name,
+			email,
+			password
+		)
+			.then(() => navigate('/sing-in',
+				{replace: true}
+			))
 			.catch(err => {
-			console.log(err);
-			setApiError({
-				message: err.message,
-				show: true
-			});
-		})
+				console.log(err);
+				setApiError({
+					message: err.message,
+					show: true
+				});
+			})
 			.finally(() => {
 				setIsLoading(false);
 				reset();
@@ -58,7 +77,7 @@ function Register({isLoading, handleRegister, setIsLoading}) {
 				<form
 					className="register__form"
 					name="register"
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(handleRegister)}
 					noValidate
 				>
 					<fieldset className="register__fieldset">
@@ -131,7 +150,9 @@ function Register({isLoading, handleRegister, setIsLoading}) {
 							type="submit"
 							className="register__button hover hover_type_button"
 							disabled={!isDirty || !isValid || isLoading}
-						>{isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
+						>{isLoading ?
+							'Регистрация...' :
+							'Зарегистрироваться'}
 						</button>
 					</div>
 				</form>

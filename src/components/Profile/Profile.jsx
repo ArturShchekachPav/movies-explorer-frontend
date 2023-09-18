@@ -101,7 +101,9 @@ export function Profile({
 							type="submit"
 							className={`profile__button ${isEditing && 'profile__button_active'} profile__button_save hover_type_button hover`}
 							disabled={!isValid || isLoading}
-						>{isLoading ? 'Сохранение' : 'Сохранить'}
+						>{isLoading ?
+							'Сохранение' :
+							'Сохранить'}
 						</button>
 					</div>
 				</form>
