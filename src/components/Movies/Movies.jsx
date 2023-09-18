@@ -1,4 +1,3 @@
-import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCard from '../MoviesCard/MoviesCard';
@@ -8,15 +7,18 @@ import {
 	useEffect,
 	useState
 } from 'react';
-import main from '../Main/Main';
 import {useForm} from 'react-hook-form';
 import moviesApi from '../../utils/MoviesApi';
+import Preloader from '../Preloader/Preloader';
+import filterMovies from '../../utils/filterMovies'
 
 export function Movies({
-	onSidebarClose,
+	children,
 	savedMovies,
 	onSaveMovie,
-	onMovieDelete
+	onMovieDelete,
+	isLoading,
+	setIsLoading
 }) {
 	const [moviesList, setMoviesList] = useState([]);
 	const [width, setWidth] = useState(window.innerWidth);
@@ -36,8 +38,6 @@ export function Movies({
 			shortFilm: ''
 		}
 	});
-	
-	console.log(1);
 	
 	
 	useEffect(() => {
@@ -73,34 +73,16 @@ export function Movies({
 			setMoviesList(foundMovies.slice(0, k * moreClicksCount))
 		} else {
 			setK(5);
-			console.log(2)
 			setMoviesList(foundMovies.slice(0, k * moreClicksCount))
 		}
 	}, [width, foundMovies, moreClicksCount])
 	
 	function onSubmit(searchData) {
-		const {
-			search,
-			shortFilm
-		} = searchData;
+		setIsLoading(true);
 		
 		moviesApi.getAllMovies()
 			.then(allMovies => {
-				const foundMovies = allMovies.filter(({
-					nameRU,
-					nameEN,
-					duration
-				}) => {
-					if (shortFilm) {
-						return (nameRU.toLowerCase()
-							.includes(search.toLowerCase()) || nameEN.toLowerCase()
-							.includes(search.toLowerCase())) && (duration <= 40);
-					}
-					
-					return nameRU.toLowerCase()
-						.includes(search.toLowerCase()) || nameEN.toLowerCase()
-						.includes(search.toLowerCase());
-				});
+				const foundMovies = filterMovies(allMovies, searchData);
 				
 				setFoundMovies(foundMovies);
 				setMoreClicksCount(1);
@@ -111,15 +93,14 @@ export function Movies({
 				localStorage.setItem('lastSearch',
 					JSON.stringify(searchData)
 				);
-			});
+			})
+			.catch(err => console.log(err))
+			.finally(() => setIsLoading(false));
 	}
 	
 	return (
 		<div className="movies">
-			<Header
-				onSidebarClose={onSidebarClose}
-				isLoggedIn={true}
-			/>
+			{children}
 			<main className="movies__main">
 				<SearchForm
 					setMoviesList={setMoviesList}
@@ -127,59 +108,61 @@ export function Movies({
 					errors={errors}
 					inputRegister={register}
 				/>
-				{width}
-				<MoviesCardList possibleMore={true}>
-					{moviesList?.length ?
-						moviesList.map(({
-							director,
-							country,
-							duration,
-							year,
-							description,
-							image,
-							trailerLink,
-							id,
-							nameRU,
-							nameEN
-						}) => {
-							const savedId = savedMovies?.find((savedMovie) => savedMovie.movieId === id)?._id;
-							console.log(savedId);
-							
-							return <MoviesCard
-								movieData={{
-									country,
-									director,
-									duration,
-									year,
-									description,
-									image: `https://api.nomoreparties.co/${image.url}`,
-									trailerLink,
-									thumbnail: `https://api.nomoreparties.co/${image.formats.thumbnail.url}`,
-									movieId: id,
-									nameRU,
-									nameEN
-								}}
-								key={id}
-								savedStatus={Boolean(savedId)}
-								savedId={savedId}
-								onDelete={onMovieDelete}
-								onSave={onSaveMovie}
-							/>;
-						}) :
-						<h1>Not found</h1>}
-				</MoviesCardList>
-				<div
+				{JSON.parse(localStorage.getItem('foundMovies')) && (isLoading ? (<Preloader />) : (
+					<>
+					<MoviesCardList possibleMore={true}>
+				{moviesList?.length ?
+					moviesList.map(({
+					director,
+					country,
+					duration,
+					year,
+					description,
+					image,
+					trailerLink,
+					id,
+					nameRU,
+					nameEN
+				}) => {
+					const savedId = savedMovies?.find((savedMovie) => savedMovie.movieId === id)?._id;
+					
+					return <MoviesCard
+					movieData={{
+					country,
+					director,
+					duration,
+					year,
+					description,
+					image: `https://api.nomoreparties.co/${image.url}`,
+					trailerLink,
+					thumbnail: `https://api.nomoreparties.co/${image.formats.thumbnail.url}`,
+					movieId: id,
+					nameRU,
+					nameEN
+				}}
+					key={id}
+					savedStatus={Boolean(savedId)}
+					savedId={savedId}
+					onDelete={onMovieDelete}
+					onSave={onSaveMovie}
+					/>;
+				}) :
+					<h1>Not found</h1>}
+					</MoviesCardList>
+					<div
 					className={`moviescardlist__more ${foundMovies.length > moreClicksCount * k ?
-						'' :
-						'moviescardlist__more_disabled'}`}
-				>
+					'' :
+					'moviescardlist__more_disabled'}`}
+					>
 					<button onClick={() => setMoreClicksCount(moreClicksCount + 1)}
-						className={`moviescardlist__more-button ${foundMovies.length > moreClicksCount * k ?
-							'' :
-							'moviescardlist__more-button_disabled'} hover hover_type_button`}
+					className={`moviescardlist__more-button ${foundMovies.length > moreClicksCount * k ?
+					'' :
+					'moviescardlist__more-button_disabled'} hover hover_type_button`}
 					>Ещё
 					</button>
-				</div>
+					</div>
+					</>
+					))}
 			</main>
 			<Footer/>
 		</div>

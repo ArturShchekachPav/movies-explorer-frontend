@@ -19,6 +19,8 @@ import Sidebar from '../Sidebar/Sidebar';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import mainApi from '../../utils/MainApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
+import Header from '../Header/Header';
+import {useForm} from 'react-hook-form';
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,30 +28,79 @@ function App() {
 	const [currentUser, setCurrentUser] = useState({});
 	const [savedMovies, setSavedMovies] = useState([]);
 	const [isProfileEditing, setIsProfileEditing] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	
+	const {
+		register,
+		handleSubmit,
+		formState: {
+			errors,
+			isValid,
+			isDirty
+		},
+		reset
+	} = useForm({
+		mode: 'onChange',
+		defaultValues: {
+			name: '',
+			email: '',
+			password: '',
+			search: '',
+			shortFilm: ''
+		}
+	});
 	
 	const navigate = useNavigate();
 	
-	const getProfileData = () => {
-		return Promise.all([mainApi.getProfileData(),
+	const handleTokenCheck = () => {
+		Promise.all([mainApi.getProfileData(),
 			mainApi.getMovies()
 		])
 			.then(([userData, movies]) => {
 				setCurrentUser(userData);
 				setIsLoggedIn(true);
-				setSavedMovies(movies);
+				
+				const userMovies = movies.filter(movie => movie.owner === userData._id);
+				setSavedMovies(userMovies);
+				navigate('/movies',
+					{replace: true}
+				);
 			})
 			.catch(err => {
 				console.log(err);
 			});
-	}
-	
-	const handleTokenCheck = () => {
-		getProfileData();
 	};
 	
 	useEffect(handleTokenCheck,
 		[]
 	);
+	
+	const handleAuthorize = ({
+		email,
+		password
+	}) => {
+		setIsLoading(true);
+		return mainApi.login(email,
+			password
+		)
+			.then(() => handleTokenCheck());
+	};
+	
+	function handleRegister({
+		name,
+		email,
+		password
+	}) {
+		setIsLoading(true);
+		
+		return mainApi.register(name,
+			email,
+			password
+		)
+			.then(() => navigate('/sing-in',
+				{replace: true}
+			));
+	}
 	
 	const handleDeleteMovieCard = (movieId) => {
 		return mainApi.deleteMovie(movieId)
@@ -73,6 +124,8 @@ function App() {
 		email,
 		name
 	}) {
+		setIsLoading(true);
+		
 		mainApi.editProfileData(name,
 			email
 		)
@@ -80,7 +133,8 @@ function App() {
 				setCurrentUser(newUserData);
 			})
 			.then(() => setIsProfileEditing(false))
-			.catch(err => console.log(err));
+			.catch(err => console.log(err))
+			.finally(() => setIsLoading(false));
 	}
 	
 	function handleSingOut() {
@@ -90,6 +144,7 @@ function App() {
 				navigate('/sing-in',
 					{replace: true}
 				);
+				localStorage.clear();
 			})
 			.catch(err => {
 				console.log(err);
@@ -103,54 +158,77 @@ function App() {
 				<Routes>
 					<Route
 						path="/sing-up"
-						element={<Register/>}
+						element={<Register handleRegister={handleRegister} isLoading={isLoading} setIsLoading={setIsLoading}/>}
 					/>
 					<Route
 						path="/sing-in"
-						element={<Login getProfileData={getProfileData} isLoggedIn={isLoggedIn}/>}
+						element={<Login handleAuthorize={handleAuthorize} isLoading={isLoading} setIsLoading={setIsLoading}/>}
 					/>
 					<Route
 						path="/movies"
 						element={<ProtectedRoute
-							element={<Movies
-								onSidebarClose={setIsSidebarOpen}
+							element={
+							<Movies
 								savedMovies={savedMovies}
 								onMovieDelete={handleDeleteMovieCard}
 								onSaveMovie={handleSaveMovieCard}
-							/>}
+								isLoading={isLoading}
+								setIsLoading={setIsLoading}>
+								<Header
+									onSidebarClose={setIsSidebarOpen}
+									isLoggedIn={true}
+								/>
+							</Movies>
+						}
 							isLoggedIn={isLoggedIn}
 						/>}
 					/>
 					<Route
 						path="/saved-movies"
 						element={<ProtectedRoute
-							element={<SavedMovies
-								onSidebarClose={setIsSidebarOpen}
+							element={
+							<SavedMovies
 								savedMovies={savedMovies}
 								onMovieDelete={handleDeleteMovieCard}
-							/>}
+							>
+								<Header
+									onSidebarClose={setIsSidebarOpen}
+									isLoggedIn={true}
+								/>
+							</SavedMovies>
+						}
 							isLoggedIn={isLoggedIn}
 						/>}
 					/>
 					<Route
 						path="/profile"
 						element={<ProtectedRoute
-							element={<Profile
-								onSidebarClose={setIsSidebarOpen}
+							element={
+							<Profile
 								onSubmit={handleProfileDataUpdate}
 								isEditing={isProfileEditing}
 								setIsEditing={setIsProfileEditing}
 								logOut={handleSingOut}
-							/>}
+								isLoading={isLoading}
+							>
+								<Header
+									onSidebarClose={setIsSidebarOpen}
+									isLoggedIn={true}
+								/>
+							</Profile>
+						}
 							isLoggedIn={isLoggedIn}
 						/>}
 					/>
 					<Route
 						path="/"
-						element={<Main
-							onSidebarClose={setIsSidebarOpen}
-							isLoggedIn={isLoggedIn}
-						/>}
+						element={
+						<Main>
+							<Header
+								onSidebarClose={setIsSidebarOpen}
+								isLoggedIn={isLoggedIn}
+							/>
+						</Main>}
 					/>
 					<Route
 						path="/*"

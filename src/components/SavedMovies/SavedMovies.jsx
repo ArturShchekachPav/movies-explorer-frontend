@@ -1,4 +1,3 @@
-import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -6,11 +5,13 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import './SavedMovies.css';
 import {useForm} from 'react-hook-form';
 import {
+	useEffect,
 	useState
 } from 'react';
+import filterMovies from '../../utils/filterMovies';
 
 export function SavedMovies({
-	onSidebarClose,
+	children,
 	savedMovies,
 	onMovieDelete
 }) {
@@ -28,50 +29,34 @@ export function SavedMovies({
 		}
 	});
 	
-	function onSubmit({
-		search,
-		shortFilm
-	}) {
-		const foundMovies = moviesList.filter(({
-			nameRU,
-			nameEN,
-			duration
-		}) => {
-			if (shortFilm) {
-				return (nameRU.toLowerCase()
-					.includes(search.toLowerCase()) || nameEN.toLowerCase()
-					.includes(search.toLowerCase())) && (duration <= 40);
-			}
-			
-			return nameRU.toLowerCase()
-				.includes(search.toLowerCase()) || nameEN.toLowerCase()
-				.includes(search.toLowerCase());
-		});
+	useEffect(() => {
+		setMoviesList(moviesList.filter((movie) => savedMovies.find((savedMovie) => savedMovie.movieId === movie.movieId)));
+	}, [savedMovies])
+	
+	function onSubmit(searchData) {
+		const foundMovies = filterMovies(savedMovies, searchData);
 		
 		setMoviesList(foundMovies);
 	}
 	
 	return (
 		<div className="saved-movies">
-			<Header
-				onSidebarClose={onSidebarClose}
-				isLoggedIn={true}
-			/>
+			{children}
 			<main className="saved-movies__main">
 				<SearchForm
 					setMoviesList={setMoviesList}
-					onSubmit={() => handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(onSubmit)}
 					errors={errors}
 					inputRegister={register}
 				/>
 				<MoviesCardList>
-					{moviesList.map((movie) => <MoviesCard
+					{moviesList?.length ? moviesList.map((movie) => <MoviesCard
 						movieData={movie}
 						savedStatus={true}
 						savedId={movie._id}
 						key={movie.movieId}
 						onDelete={onMovieDelete}
-					/>)}
+					/>) : <h1>Нет сохраненных фильмов</h1>}
 				</MoviesCardList>
 			</main>
 			<Footer/>

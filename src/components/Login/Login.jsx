@@ -7,13 +7,11 @@ import {useForm} from 'react-hook-form';
 import mainApi from '../../utils/MainApi';
 import {useState} from 'react';
 
-function Login({getProfileData}) {
+function Login({handleAuthorize, isLoading, setIsLoading}) {
 	const [apiError, setApiError] = useState({
 		message: '',
 		show: false
 	});
-	
-	const navigate = useNavigate();
 	
 	const {
 		register,
@@ -32,31 +30,19 @@ function Login({getProfileData}) {
 		}
 	});
 	
-	const handleAuthorize = ({
-		email,
-		password
-	}) => {
-		return mainApi.login(email,
-			password
-		)
-			.then(() => getProfileData()
-				.then(() => {
-					navigate('/movies',
-						{replace: true}
-					);
-					reset();
-				}))
+	function onSubmit(data) {
+		return handleAuthorize(data)
 			.catch(err => {
 				console.log(err);
 				setApiError({
 					message: err.message,
 					show: true
 				});
+			})
+			.finally(() => {
+				setIsLoading(false)
+				reset();
 			});
-	};
-	
-	function onSubmit(data) {
-		return handleAuthorize(data);
 	}
 	
 	return (
@@ -121,8 +107,8 @@ function Login({getProfileData}) {
 						<button
 							type="submit"
 							className="register__button hover hover_type_button"
-							disabled={!isDirty || !isValid}
-						>Войти
+							disabled={!isDirty || !isValid || isLoading}
+						>{isLoading ? 'Авторизация...' : 'Войти'}
 						</button>
 					</div>
 				</form>

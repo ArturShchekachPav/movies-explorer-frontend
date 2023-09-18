@@ -1,4 +1,3 @@
-import Header from '../Header/Header';
 import './Profile.css';
 import {
 	useContext
@@ -8,11 +7,12 @@ import {useForm} from 'react-hook-form';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 export function Profile({
-	onSidebarClose,
+	children,
 	isEditing,
 	onSubmit,
 	setIsEditing,
-	logOut
+	logOut,
+	isLoading
 }) {
 	
 	const {
@@ -34,10 +34,7 @@ export function Profile({
 	
 	return (
 		<div className="profile">
-			<Header
-				onSidebarClose={onSidebarClose}
-				isLoggedIn={true}
-			/>
+			{children}
 			<main className="profile__main">
 				<h1 className="profile__greeting">Привет, {name}!</h1>
 				<form
@@ -103,8 +100,8 @@ export function Profile({
 						<button
 							type="submit"
 							className={`profile__button ${isEditing && 'profile__button_active'} profile__button_save hover_type_button hover`}
-							disabled={!isValid}
-						>Сохранить
+							disabled={!isValid || isLoading}
+						>{isLoading ? 'Сохранение' : 'Сохранить'}
 						</button>
 					</div>
 				</form>

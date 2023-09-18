@@ -1,15 +1,12 @@
 import {
-	Link,
-	useNavigate
+	Link
 } from 'react-router-dom';
 import './Register.css';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
-import mainApi from '../../utils/MainApi';
 import {useState} from 'react';
 
-function Register() {
-	const navigate = useNavigate();
+function Register({isLoading, handleRegister, setIsLoading}) {
 	const [apiError, setApiError] = useState({
 		message: '',
 		show: false
@@ -33,32 +30,19 @@ function Register() {
 		}
 	});
 	
-	function handleRegister({
-		name,
-		email,
-		password
-	}) {
-		return mainApi.register(name,
-			email,
-			password
-		)
-			.then(() => {
-				reset();
-				navigate('/sing-in',
-					{replace: true}
-				);
-			})
-			.catch(err => {
-				console.log(err);
-				setApiError({
-					message: err.message,
-					show: true
-				});
-			});
-	}
-	
 	function onSubmit(data) {
-		return handleRegister(data);
+		handleRegister(data)
+			.catch(err => {
+			console.log(err);
+			setApiError({
+				message: err.message,
+				show: true
+			});
+		})
+			.finally(() => {
+				setIsLoading(false);
+				reset();
+			});
 	}
 	
 	return (
@@ -146,8 +130,8 @@ function Register() {
 						<button
 							type="submit"
 							className="register__button hover hover_type_button"
-							disabled={!isDirty || !isValid}
-						>Зарегистрироваться
+							disabled={!isDirty || !isValid || isLoading}
+						>{isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
 						</button>
 					</div>
 				</form>
