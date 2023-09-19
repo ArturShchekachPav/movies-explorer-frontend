@@ -44,14 +44,14 @@ function Login({
 		return mainApi.login(email,
 			password
 		)
-			.then(() => getProfileInfo())
-			.then(() => {
-				navigate('/movies',
-					{replace: true}
-				);
-				
-				reset();
-			})
+			// .then(() => getProfileInfo())
+			// .then(() => {
+			// 	navigate('/movies',
+			// 		{replace: true}
+			// 	);
+			//
+			// 	reset();
+			// })
 			.catch(err => {
 				console.log(err);
 				setApiError({

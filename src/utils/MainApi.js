@@ -27,15 +27,17 @@ class MainApi {
 	}
 	
 	login(email, password) {
-		return fetch(this.baseUrl + '/signin', {
-			method: 'POST',
-			headers: this.headers,
-			credentials: 'include',
-			body: JSON.stringify({
-				email,
-				password
-			})
-		})
+		return fetch(`${this.baseUrl}/signin`,
+			{
+				method: 'POST',
+				headers: this.headers,
+				credentials: 'include',
+				body: JSON.stringify({
+					email,
+					password
+				})
+			}
+		)
 			.then(this._checkResponse);
 	}
 	
@@ -117,7 +119,9 @@ class MainApi {
 	}
 }
 
-const mainApi = new MainApi({baseUrl: 'https://api.bestmoviesearcher.nomoreparties.co', headers: {
+const mainApi = new MainApi({
+	baseUrl: 'https://api.bestmoviesearcher.nomoreparties.co',
+	headers: {
 		'Content-Type': 'application/json',
 	}});
 
