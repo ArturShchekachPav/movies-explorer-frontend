@@ -117,7 +117,7 @@ class MainApi {
 	}
 }
 
-const mainApi = new MainApi({baseUrl: 'http://localhost:3005', headers: {
+const mainApi = new MainApi({baseUrl: 'https://api.bestmoviesearcher.nomoreparties.co', headers: {
 		'Content-Type': 'application/json',
 	}});
 
