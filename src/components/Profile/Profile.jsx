@@ -55,13 +55,13 @@ export function Profile({
 							maxLength="30"
 							minLength="2"
 							placeholder="Имя"
-							pattern="^[а-яА-Яa-zA-Z\s-]+$"
+							pattern="^[а-яА-Яa-zA-Z\s\-]+$"
 							{...register('name',
 								{
 									required: true,
 									minLength: 2,
 									maxLength: 30,
-									pattern: /^[а-яА-Яa-zA-Z\s-]+$/
+									pattern: /^[а-яА-Яa-zA-Z\s\-]+$/
 								}
 							)}
 							id="name-profile"
@@ -87,11 +87,11 @@ export function Profile({
 						/>
 					</div>
 					<div className="profile__buttons">
-						<ApiError
+						{!isEditing && <ApiError
 							message={updateStatus.message}
 							show={updateStatus.show}
 							success={updateStatus.success}
-						/>
+						/>}
 						<button
 							type="button"
 							onClick={() => setIsEditing(true)}

@@ -30,7 +30,7 @@ function App() {
 	const [savedMovies, setSavedMovies] = useState([]);
 	const [isProfileEditing, setIsProfileEditing] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [updateStatus, setUpdateStatus] = useState({})
+	const [updateStatus, setUpdateStatus] = useState({});
 	
 	const navigate = useNavigate();
 	
@@ -92,7 +92,11 @@ function App() {
 			})
 			.then(() => {
 				setIsProfileEditing(false);
-				setUpdateStatus({show:true, success: true, message: 'Данные обновлены'})
+				setUpdateStatus({
+					show: true,
+					success: true,
+					message: 'Данные обновлены'
+				});
 			})
 			.catch(err => console.log(err))
 			.finally(() => setIsLoading(false));

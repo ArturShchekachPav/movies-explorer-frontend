@@ -55,7 +55,8 @@ function Register({
 			.then(() => getProfileInfo())
 			.then(() => {
 				navigate('/movies',
-					{replace: true});
+					{replace: true}
+				);
 				
 				reset();
 			})
@@ -98,7 +99,7 @@ function Register({
 								minLength="2"
 								maxLength="30"
 								placeholder="Имя"
-								pattern="^[а-яА-Яa-zA-Z\s-]+$"
+								pattern="^[а-яА-Яa-zA-Z\s\-]+$"
 								{...register('name',
 									{
 										required: 'Это обязательное поле',
@@ -108,7 +109,7 @@ function Register({
 										},
 										maxLength: 30,
 										pattern: {
-											value: /^[а-яА-Яa-zA-Z\s-]+$/,
+											value: /^[а-яА-Яa-zA-Z\s\-]+$/,
 											message: 'Введите корректное имя'
 										}
 									}

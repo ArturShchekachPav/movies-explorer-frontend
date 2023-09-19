@@ -47,9 +47,10 @@ function Login({
 			.then(() => getProfileInfo())
 			.then(() => {
 				navigate('/movies',
-				{replace: true});
-					
-					reset();
+					{replace: true}
+				);
+				
+				reset();
 			})
 			.catch(err => {
 				console.log(err);

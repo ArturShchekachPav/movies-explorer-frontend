@@ -2,8 +2,7 @@ import './FilterCheckbox.css';
 
 function FilterCheckbox({
 	inputRegister,
-	isLoading,
-	onClick
+	isLoading
 }) {
 	return (
 		<label className="filter">

@@ -123,8 +123,10 @@ export function Movies({
 	);
 	
 	function getMovies() {
-		return new Promise(function(resolve, reject) {
-			if(!JSON.parse(localStorage.getItem('allMovies'))) {
+		return new Promise(function (resolve,
+			reject
+		) {
+			if (!JSON.parse(localStorage.getItem('allMovies'))) {
 				moviesApi.getAllMovies()
 					.then((allMovies) => {
 						localStorage.setItem('allMovies',
@@ -133,11 +135,11 @@ export function Movies({
 						
 						resolve(allMovies);
 					})
-					.catch(err => reject(err))
+					.catch(err => reject(err));
 			}
 			
-			resolve(JSON.parse(localStorage.getItem('allMovies')))
-		})
+			resolve(JSON.parse(localStorage.getItem('allMovies')));
+		});
 	}
 	
 	function onSubmit(searchData) {
@@ -168,7 +170,7 @@ export function Movies({
 	}
 	
 	useEffect(() => {
-			if(foundMovies.length) {
+			if (foundMovies.length) {
 				onSubmit(getValues());
 			}
 		},
@@ -204,15 +206,15 @@ export function Movies({
 						apiError={apiError}
 					>
 						{foundMovies > moviesList &&
-						<div
-							className='moviescardlist__more'
-						>
-							<button
-								onClick={() => setMoreClicksCount(moreClicksCount + 1)}
-								className='moviescardlist__more-button hover hover_type_button'
-							>Ещё
-							</button>
-						</div>}
+							<div
+								className="moviescardlist__more"
+							>
+								<button
+									onClick={() => setMoreClicksCount(moreClicksCount + 1)}
+									className="moviescardlist__more-button hover hover_type_button"
+								>Ещё
+								</button>
+							</div>}
 					</MoviesCardList>)
 				}
 			</main>
