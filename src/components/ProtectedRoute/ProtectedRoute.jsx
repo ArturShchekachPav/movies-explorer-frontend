@@ -8,8 +8,8 @@ function ProtectedRoute({
 		isLoggedIn ?
 			element :
 			<Navigate
-				to="/sing-in"
-				replace
+				to="/"
+				replace={true}
 			/>
 	);
 }

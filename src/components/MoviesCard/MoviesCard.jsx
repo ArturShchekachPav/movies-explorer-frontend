@@ -3,10 +3,8 @@ import {useLocation} from 'react-router-dom';
 
 function MoviesCard({
 	movieData,
-	savedStatus,
 	onSave,
-	onDelete,
-	savedId
+	onDelete
 }) {
 	const location = useLocation();
 	
@@ -32,8 +30,8 @@ function MoviesCard({
 				</div>
 				<button
 					onClick={() => {
-						savedStatus ?
-							onDelete(savedId) :
+						movieData._id ?
+							onDelete(movieData._id) :
 							onSave(movieData);
 					}}
 					aria-label={location.pathname === '/saved-movies' ?
@@ -41,7 +39,7 @@ function MoviesCard({
 						'Сохранить фильм'}
 					className={`movie-card__button hover hover_type_button ${location.pathname === '/saved-movies' ?
 						'movie-card__button_delete' :
-						savedStatus ?
+						movieData._id ?
 							'movie-card__button_saved' :
 							'movie-card__button_unsaved'}`}
 				></button>

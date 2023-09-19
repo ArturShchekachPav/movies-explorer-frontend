@@ -1,7 +1,6 @@
 import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import MoviesCard from '../MoviesCard/MoviesCard';
 import './SavedMovies.css';
 import {useForm} from 'react-hook-form';
 import {
@@ -22,7 +21,9 @@ export function SavedMovies({
 	const {
 		register,
 		handleSubmit,
-		formState: {errors}
+		formState: {errors},
+		watch,
+		getValues
 	} = useForm({
 		mode: 'onSubmit',
 		defaultValues: {
@@ -45,6 +46,12 @@ export function SavedMovies({
 		setMoviesList(foundMovies);
 	}
 	
+	useEffect(() => {
+			onSubmit(getValues());
+		},
+		[watch('shortFilm')]
+	);
+	
 	return (
 		<div className="saved-movies">
 			{children}
@@ -54,19 +61,15 @@ export function SavedMovies({
 					onSubmit={handleSubmit(onSubmit)}
 					errors={errors}
 					inputRegister={register}
+					isLoading={isLoading}
 				/>
-				{moviesList?.length ? (isLoading ?
-					(<Preloader/>) :
-					(<MoviesCardList>
-				{savedMovies?.length &&
-					moviesList.map((movie) => <MoviesCard
-					movieData={movie}
-					savedStatus={true}
-					savedId={movie._id}
-					key={movie.movieId}
-					onDelete={onMovieDelete}
-					/>)}
-					</MoviesCardList>)) : ''}
+				{savedMovies.length && (isLoading ?
+					<Preloader/> :
+					<MoviesCardList
+						moviesList={moviesList}
+						moviesMethods={{handleDeleteMovieCard: onMovieDelete}}
+					/>)
+				}
 			</main>
 			<Footer/>
 		</div>

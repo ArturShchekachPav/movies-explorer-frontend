@@ -1,5 +1,6 @@
 import {
-	Link
+	Link,
+	useNavigate
 } from 'react-router-dom';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
@@ -7,7 +8,7 @@ import mainApi from '../../utils/MainApi';
 import {useState} from 'react';
 
 function Login({
-	handleTokenCheck,
+	getProfileInfo,
 	isLoading,
 	setIsLoading
 }) {
@@ -15,6 +16,8 @@ function Login({
 		message: '',
 		show: false
 	});
+	
+	const navigate = useNavigate();
 	
 	const {
 		register,
@@ -41,7 +44,13 @@ function Login({
 		return mainApi.login(email,
 			password
 		)
-			.then(() => handleTokenCheck())
+			.then(() => getProfileInfo())
+			.then(() => {
+				navigate('/movies',
+				{replace: true});
+					
+					reset();
+			})
 			.catch(err => {
 				console.log(err);
 				setApiError({
@@ -51,7 +60,6 @@ function Login({
 			})
 			.finally(() => {
 				setIsLoading(false);
-				reset();
 			});
 	}
 	
@@ -90,6 +98,7 @@ function Login({
 									}
 								)}
 								id="email-register"
+								disabled={isLoading}
 							/>
 							{errors?.email && <span className="register__error">{errors?.email?.message}</span>}
 						</label>
@@ -105,6 +114,7 @@ function Login({
 									{required: 'Это обязательное поле'}
 								)}
 								id="password-register"
+								disabled={isLoading}
 							/>
 							{errors?.password && <span className="register__error">{errors?.password?.message}</span>}
 						</label>

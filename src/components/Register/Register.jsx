@@ -10,7 +10,8 @@ import mainApi from '../../utils/MainApi';
 
 function Register({
 	isLoading,
-	setIsLoading
+	setIsLoading,
+	getProfileInfo
 }) {
 	const [apiError, setApiError] = useState({
 		message: '',
@@ -48,9 +49,16 @@ function Register({
 			email,
 			password
 		)
-			.then(() => navigate('/sing-in',
-				{replace: true}
+			.then(() => mainApi.login(email,
+				password
 			))
+			.then(() => getProfileInfo())
+			.then(() => {
+				navigate('/movies',
+					{replace: true});
+				
+				reset();
+			})
 			.catch(err => {
 				console.log(err);
 				setApiError({
@@ -60,7 +68,6 @@ function Register({
 			})
 			.finally(() => {
 				setIsLoading(false);
-				reset();
 			});
 	}
 	
@@ -88,8 +95,10 @@ function Register({
 							<input
 								type="text"
 								className={`register__input ${errors?.name && 'register__input_error'}`}
+								minLength="2"
 								maxLength="30"
 								placeholder="Имя"
+								pattern="^[а-яА-Яa-zA-Z\s-]+$"
 								{...register('name',
 									{
 										required: 'Это обязательное поле',
@@ -97,10 +106,15 @@ function Register({
 											value: 2,
 											message: 'Значение должно быть длиннее 2-х символов'
 										},
-										maxLength: 30
+										maxLength: 30,
+										pattern: {
+											value: /^[а-яА-Яa-zA-Z\s-]+$/,
+											message: 'Введите корректное имя'
+										}
 									}
 								)}
 								id="name-register"
+								disabled={isLoading}
 							/>
 							{errors?.name && <span className="register__error">{errors?.name?.message}</span>}
 						</label>
@@ -112,6 +126,7 @@ function Register({
 								type="email"
 								className={`register__input ${errors?.email && 'register__input_error'}`}
 								placeholder="Email"
+								pattern="\S+@\S+\.\S+"
 								{...register('email',
 									{
 										required: 'Это обязательное поле',
@@ -122,6 +137,7 @@ function Register({
 									}
 								)}
 								id="email-register"
+								disabled={isLoading}
 							/>
 							{errors?.email && <span className="register__error">{errors?.email?.message}</span>}
 						</label>
@@ -137,6 +153,7 @@ function Register({
 									{required: 'Это обязательное поле'}
 								)}
 								id="password-register"
+								disabled={isLoading}
 							/>
 							{errors?.password && <span className="register__error">{errors?.password?.message}</span>}
 						</label>

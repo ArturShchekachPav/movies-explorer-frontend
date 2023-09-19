@@ -19,3 +19,7 @@
   display: block;
   visibility: visible;
 }
+
+.api-error_success {
+  color: #0dd127;
+}

@@ -1,6 +1,5 @@
 import Footer from '../Footer/Footer';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import MoviesCard from '../MoviesCard/MoviesCard';
 import SearchForm from '../SearchForm/SearchForm';
 import './Movies.css';
 import {
@@ -11,31 +10,44 @@ import {useForm} from 'react-hook-form';
 import moviesApi from '../../utils/MoviesApi';
 import Preloader from '../Preloader/Preloader';
 import filterMovies from '../../utils/filterMovies';
+import {
+	SCREEN_S,
+	SCREEN_M,
+	SCREEN_L,
+	POSTION_OF_FILMES_L,
+	POSTION_OF_FILMES_M,
+	POSTION_OF_FILMES_S,
+	INITIAL_NUMBER_OF_FILMS_L,
+	INITIAL_NUMBER_OF_FILMS_M,
+	INITIAL_NUMBER_OF_FILMS_XS,
+	INITIAL_NUMBER_OF_FILMS_S
+} from '../../utils/constants';
 
 export function Movies({
 	children,
 	savedMovies,
-	onSaveMovie,
-	onMovieDelete,
+	moviesCardsMethods,
 	isLoading,
 	setIsLoading
 }) {
 	const [moviesList, setMoviesList] = useState([]);
 	const [width, setWidth] = useState(window.innerWidth);
 	const [foundMovies, setFoundMovies] = useState(JSON.parse(localStorage.getItem('foundMovies')) || []);
-	const [moreClicksCount, setMoreClicksCount] = useState(1);
-	const [k, setK] = useState(null);
+	const [moreClicksCount, setMoreClicksCount] = useState(0);
+	const [apiError, setApiError] = useState(false);
 	
 	const {
 		register,
 		handleSubmit,
 		setValue,
-		formState: {errors}
+		formState: {errors},
+		watch,
+		getValues
 	} = useForm({
 		mode: 'onSubmit',
 		defaultValues: {
 			search: '',
-			shortFilm: ''
+			shortFilm: false,
 		}
 	});
 	
@@ -52,7 +64,18 @@ export function Movies({
 				);
 			}
 			
-			const handleResizeWindow = () => setWidth(window.innerWidth);
+			let resizeTimeout;
+			
+			function handleResizeWindow() {
+				if (resizeTimeout) {
+					clearTimeout(resizeTimeout);
+				}
+				resizeTimeout = setTimeout(function () {
+						setWidth(window.innerWidth);
+					},
+					100
+				);
+			}
 			
 			window.addEventListener('resize',
 				handleResizeWindow
@@ -67,19 +90,30 @@ export function Movies({
 	);
 	
 	useEffect(() => {
-		function determineTheMultiplicity(multiplicity) {
-			setK(multiplicity);
-			setMoviesList(foundMovies.slice(0,
-				multiplicity * moreClicksCount
-			));
-		}
-		
-		if (width > 1024) {
-			determineTheMultiplicity(16);
-			} else if (width > 500) {
-			determineTheMultiplicity(8);
+			function determineTheMultiplicity(multiplicity,
+				dop
+			) {
+				setMoviesList(foundMovies.slice(0,
+					multiplicity + (dop * moreClicksCount)
+				));
+			}
+			
+			if (width > SCREEN_L) {
+				determineTheMultiplicity(INITIAL_NUMBER_OF_FILMS_L,
+					POSTION_OF_FILMES_L
+				);
+			} else if (width > SCREEN_M) {
+				determineTheMultiplicity(INITIAL_NUMBER_OF_FILMS_M,
+					POSTION_OF_FILMES_M
+				);
+			} else if (width > SCREEN_S) {
+				determineTheMultiplicity(INITIAL_NUMBER_OF_FILMS_S,
+					POSTION_OF_FILMES_S
+				);
 			} else {
-			determineTheMultiplicity(5);
+				determineTheMultiplicity(INITIAL_NUMBER_OF_FILMS_XS,
+					POSTION_OF_FILMES_S
+				);
 			}
 		},
 		[width,
@@ -88,17 +122,36 @@ export function Movies({
 		]
 	);
 	
+	function getMovies() {
+		return new Promise(function(resolve, reject) {
+			if(!JSON.parse(localStorage.getItem('allMovies'))) {
+				moviesApi.getAllMovies()
+					.then((allMovies) => {
+						localStorage.setItem('allMovies',
+							JSON.stringify(allMovies)
+						);
+						
+						resolve(allMovies);
+					})
+					.catch(err => reject(err))
+			}
+			
+			resolve(JSON.parse(localStorage.getItem('allMovies')))
+		})
+	}
+	
 	function onSubmit(searchData) {
 		setIsLoading(true);
 		
-		moviesApi.getAllMovies()
+		getMovies()
 			.then(allMovies => {
 				const foundMovies = filterMovies(allMovies,
 					searchData
 				);
+				setApiError(false);
 				
 				setFoundMovies(foundMovies);
-				setMoreClicksCount(1);
+				setMoreClicksCount(0);
 				
 				localStorage.setItem('foundMovies',
 					JSON.stringify(foundMovies)
@@ -107,9 +160,20 @@ export function Movies({
 					JSON.stringify(searchData)
 				);
 			})
-			.catch(err => console.log(err))
+			.catch(err => {
+				console.log(err);
+				setApiError(true);
+			})
 			.finally(() => setIsLoading(false));
 	}
+	
+	useEffect(() => {
+			if(foundMovies.length) {
+				onSubmit(getValues());
+			}
+		},
+		[watch('shortFilm')]
+	);
 	
 	return (
 		<div className="movies">
@@ -120,41 +184,37 @@ export function Movies({
 					onSubmit={handleSubmit(onSubmit)}
 					errors={errors}
 					inputRegister={register}
+					isLoading={isLoading}
 				/>
 				{JSON.parse(localStorage.getItem('foundMovies')) && (isLoading ?
-					(<Preloader/>) :
-					(
-						<>
-							<MoviesCardList possibleMore={true}>
-								{moviesList?.length && moviesList.map((movie) => {
-										const savedId = savedMovies?.find((savedMovie) => savedMovie.movieId === movie.id)?._id;
-										
-										return <MoviesCard
-											movieData={{
-												...movie,
-												image: `https://api.nomoreparties.co/${movie.image.url}`,
-												thumbnail: `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
-												movieId: movie.id
-											}}
-											key={movie.id}
-											savedStatus={Boolean(savedId)}
-											savedId={savedId}
-											onDelete={onMovieDelete}
-											onSave={onSaveMovie}
-										/>;
-									})}
-							</MoviesCardList>
-							<div
-								className={`moviescardlist__more ${!(foundMovies.length > moreClicksCount * k) && 'moviescardlist__more_disabled'}`}
-							>
-								<button
-									onClick={() => setMoreClicksCount(moreClicksCount + 1)}
-									className={`moviescardlist__more-button ${!(foundMovies.length > moreClicksCount * k) && 'moviescardlist__more-button_disabled'} hover hover_type_button`}
-								>Ещё
-								</button>
-							</div>
-						</>
-					))}
+					<Preloader/> :
+					<MoviesCardList
+						moviesList={moviesList.map((movie) => {
+							const savedId = savedMovies?.find((savedMovie) => savedMovie.movieId === movie.id)?._id;
+							
+							return {
+								...movie,
+								image: `https://api.nomoreparties.co/${movie.image.url}`,
+								thumbnail: `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
+								movieId: movie.id,
+								_id: savedId
+							};
+						})}
+						moviesMethods={moviesCardsMethods}
+						apiError={apiError}
+					>
+						{foundMovies > moviesList &&
+						<div
+							className='moviescardlist__more'
+						>
+							<button
+								onClick={() => setMoreClicksCount(moreClicksCount + 1)}
+								className='moviescardlist__more-button hover hover_type_button'
+							>Ещё
+							</button>
+						</div>}
+					</MoviesCardList>)
+				}
 			</main>
 			<Footer/>
 		</div>

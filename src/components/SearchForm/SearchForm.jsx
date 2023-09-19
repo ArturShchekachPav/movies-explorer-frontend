@@ -4,9 +4,9 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 function SearchForm({
 	onSubmit,
 	inputRegister,
-	errors
+	errors,
+	isLoading
 }) {
-	
 	
 	return (
 		<section className="search container">
@@ -25,6 +25,7 @@ function SearchForm({
 							{...inputRegister('search',
 								{required: true}
 							)}
+							disabled={isLoading}
 						/>
 						{errors?.search && <span className="search__error">Нужно ввести ключевое слово</span>}
 					</label>
@@ -32,10 +33,15 @@ function SearchForm({
 						type="submit"
 						aria-label="Искать"
 						className="search__button hover hover_type_button"
+						disabled={isLoading}
 					></button>
 				</fieldset>
 				<div className="search__form-divider"></div>
-				<FilterCheckbox inputRegister={inputRegister}/>
+				<FilterCheckbox
+					inputRegister={inputRegister}
+					isLoading={isLoading}
+					onClick={onSubmit}
+				/>
 			</form>
 			<div className="search__divider"></div>
 		</section>

@@ -12,7 +12,8 @@ export function Profile({
 	onSubmit,
 	setIsEditing,
 	logOut,
-	isLoading
+	isLoading,
+	updateStatus
 }) {
 	
 	const {
@@ -23,7 +24,10 @@ export function Profile({
 	const {
 		register,
 		handleSubmit,
-		formState: {isValid}
+		formState: {
+			isValid,
+			isDirty
+		}
 	} = useForm({
 		mode: 'onChange',
 		defaultValues: {
@@ -51,15 +55,17 @@ export function Profile({
 							maxLength="30"
 							minLength="2"
 							placeholder="Имя"
+							pattern="^[а-яА-Яa-zA-Z\s-]+$"
 							{...register('name',
 								{
 									required: true,
 									minLength: 2,
-									maxLength: 30
+									maxLength: 30,
+									pattern: /^[а-яА-Яa-zA-Z\s-]+$/
 								}
 							)}
 							id="name-profile"
-							disabled={!isEditing}
+							disabled={!isEditing || isLoading}
 						/>
 					</div>
 					<div className="profile__data-divider"></div>
@@ -77,10 +83,15 @@ export function Profile({
 								}
 							)}
 							id="email-profile"
-							disabled={!isEditing}
+							disabled={!isEditing || isLoading}
 						/>
 					</div>
 					<div className="profile__buttons">
+						<ApiError
+							message={updateStatus.message}
+							show={updateStatus.show}
+							success={updateStatus.success}
+						/>
 						<button
 							type="button"
 							onClick={() => setIsEditing(true)}
@@ -100,9 +111,9 @@ export function Profile({
 						<button
 							type="submit"
 							className={`profile__button ${isEditing && 'profile__button_active'} profile__button_save hover_type_button hover`}
-							disabled={!isValid || isLoading}
+							disabled={!isValid || isLoading || !isDirty}
 						>{isLoading ?
-							'Сохранение' :
+							'Сохранение...' :
 							'Сохранить'}
 						</button>
 					</div>

@@ -2,7 +2,8 @@ import './App.css';
 import {
 	Routes,
 	Route,
-	useNavigate
+	useNavigate,
+	Navigate
 } from 'react-router-dom';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -20,19 +21,21 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import mainApi from '../../utils/MainApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
+import Preloader from '../Preloader/Preloader';
 
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(null);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [currentUser, setCurrentUser] = useState({});
 	const [savedMovies, setSavedMovies] = useState([]);
 	const [isProfileEditing, setIsProfileEditing] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [updateStatus, setUpdateStatus] = useState({})
 	
 	const navigate = useNavigate();
 	
-	const handleTokenCheck = () => {
-		Promise.all([mainApi.getProfileData(),
+	const getProfileInfo = () => {
+		return Promise.all([mainApi.getProfileData(),
 			mainApi.getMovies()
 		])
 			.then(([userData, movies]) => {
@@ -41,13 +44,16 @@ function App() {
 				
 				const userMovies = movies.filter(movie => movie.owner === userData._id);
 				setSavedMovies(userMovies);
-				navigate('/movies',
-					{replace: true}
-				);
 			})
 			.catch(err => {
-				console.log(err);
+				setIsLoggedIn(false);
+				return Promise.reject(err);
 			});
+	};
+	
+	const handleTokenCheck = () => {
+		getProfileInfo()
+			.catch((err) => console.log(err));
 	};
 	
 	useEffect(handleTokenCheck,
@@ -84,7 +90,10 @@ function App() {
 			.then((newUserData) => {
 				setCurrentUser(newUserData);
 			})
-			.then(() => setIsProfileEditing(false))
+			.then(() => {
+				setIsProfileEditing(false);
+				setUpdateStatus({show:true, success: true, message: 'Данные обновлены'})
+			})
 			.catch(err => console.log(err))
 			.finally(() => setIsLoading(false));
 	}
@@ -93,7 +102,7 @@ function App() {
 		mainApi.logout()
 			.then(() => {
 				setIsLoggedIn(false);
-				navigate('/sing-in',
+				navigate('/',
 					{replace: true}
 				);
 				localStorage.clear();
@@ -104,24 +113,46 @@ function App() {
 		
 	}
 	
+	if (isLoggedIn === null) {
+		return (
+			<div className="app">
+				<main className="app__preloader-container">
+					<Preloader/>
+				</main>
+			</div>
+		);
+	}
+	
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
 			<div className="app">
 				<Routes>
 					<Route
+						a
 						path="/sing-up"
-						element={<Register
-							isLoading={isLoading}
-							setIsLoading={setIsLoading}
-						/>}
+						element={isLoggedIn ?
+							<Navigate
+								to="/"
+								replace={true}
+							/> :
+							<Register
+								isLoading={isLoading}
+								setIsLoading={setIsLoading}
+								getProfileInfo={getProfileInfo}
+							/>}
 					/>
 					<Route
 						path="/sing-in"
-						element={<Login
-							handleTokenCheck={handleTokenCheck}
-							isLoading={isLoading}
-							setIsLoading={setIsLoading}
-						/>}
+						element={isLoggedIn ?
+							<Navigate
+								to="/"
+								replace={true}
+							/> :
+							<Login
+								getProfileInfo={getProfileInfo}
+								isLoading={isLoading}
+								setIsLoading={setIsLoading}
+							/>}
 					/>
 					<Route
 						path="/movies"
@@ -129,8 +160,10 @@ function App() {
 							element={
 								<Movies
 									savedMovies={savedMovies}
-									onMovieDelete={handleDeleteMovieCard}
-									onSaveMovie={handleSaveMovieCard}
+									moviesCardsMethods={{
+										handleDeleteMovieCard,
+										handleSaveMovieCard
+									}}
 									isLoading={isLoading}
 									setIsLoading={setIsLoading}
 								>
@@ -171,6 +204,7 @@ function App() {
 									setIsEditing={setIsProfileEditing}
 									logOut={handleSingOut}
 									isLoading={isLoading}
+									updateStatus={updateStatus}
 								>
 									<Header
 										onSidebarClose={setIsSidebarOpen}
