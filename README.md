@@ -7,4 +7,4 @@
 
 ## Выбранный макет - light-3
 
-Cсылка на макет: https://bestmoviesearcher.nomoredomainsicu.ru/
+Cсылка на макет: https://bestmoviesearcher.nomoredomainsrocks.ru/
