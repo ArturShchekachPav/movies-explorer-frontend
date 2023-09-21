@@ -170,8 +170,10 @@ export function Movies({
 	}
 	
 	useEffect(() => {
-			if (foundMovies.length) {
-				onSubmit(getValues());
+			const lastSearch = JSON.parse(localStorage.getItem('lastSearch'));
+		
+			if (lastSearch) {
+				onSubmit({search: lastSearch.search, shortFilm: getValues('shortFilm')});
 			}
 		},
 		[watch('shortFilm')]
