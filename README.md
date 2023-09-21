@@ -8,4 +8,5 @@
 ## Выбранный макет - light-3
 
 Cсылка на проект: https://bestmoviesearcher.nomoredomainsrocks.ru/
+
 Ссылка на pull request: https://github.com/ArturShchekachPav/movies-explorer-frontend/pull/2
