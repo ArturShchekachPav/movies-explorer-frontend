@@ -63,7 +63,7 @@ export function SavedMovies({
 					inputRegister={register}
 					isLoading={isLoading}
 				/>
-				{savedMovies.length && (isLoading ?
+				{Boolean(savedMovies.length) && (isLoading ?
 					<Preloader/> :
 					<MoviesCardList
 						moviesList={moviesList}

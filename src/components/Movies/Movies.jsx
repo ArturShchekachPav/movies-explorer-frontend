@@ -133,12 +133,12 @@ export function Movies({
 							JSON.stringify(allMovies)
 						);
 						
-						resolve(allMovies);
+						return  resolve(allMovies);
 					})
 					.catch(err => reject(err));
+			} else {
+				return resolve(JSON.parse(localStorage.getItem('allMovies')));
 			}
-			
-			resolve(JSON.parse(localStorage.getItem('allMovies')));
 		});
 	}
 	
@@ -188,8 +188,8 @@ export function Movies({
 					inputRegister={register}
 					isLoading={isLoading}
 				/>
-				{JSON.parse(localStorage.getItem('foundMovies')) && (isLoading ?
-					<Preloader/> :
+				{isLoading ?
+					<Preloader/> : JSON.parse(localStorage.getItem('foundMovies')) &&
 					<MoviesCardList
 						moviesList={moviesList.map((movie) => {
 							const savedId = savedMovies?.find((savedMovie) => savedMovie.movieId === movie.id)?._id;
@@ -215,7 +215,7 @@ export function Movies({
 								>Ещё
 								</button>
 							</div>}
-					</MoviesCardList>)
+					</MoviesCardList>
 				}
 			</main>
 			<Footer/>
