@@ -120,7 +120,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-	baseUrl: 'https://api.bestmoviesearcher.nomoreparties.co',
+	baseUrl: 'https://api.bestmoviesearcher.nomoredomainsrocks.ru',
 	headers: {
 		'Content-Type': 'application/json',
 	}});
