@@ -34,6 +34,7 @@
 .profile__data-field {
   display: flex;
   justify-content: space-between;
+  gap: 20px;
 }
 
 .profile__data-label {
@@ -42,10 +43,12 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  min-width: max-content;
 }
 
 .profile__data-input, .profile__data-input:disabled {
   color: #000;
+  width: 100%;
   text-align: right;
   font-family: "Inter", ‘Arial’, sans-serif;
   font-size: 11px;
@@ -125,11 +128,13 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  user-select: none;
 }
 
 .profile__button_save:disabled {
   color: #c2c2c2;
   background-color: #f8f8f8;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 1024px) {

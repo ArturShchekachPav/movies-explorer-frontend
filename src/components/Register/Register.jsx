@@ -1,9 +1,25 @@
-import {Link} from 'react-router-dom';
+import {
+	Link,
+	useNavigate
+} from 'react-router-dom';
 import './Register.css';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
+import {useState} from 'react';
+import mainApi from '../../utils/MainApi';
 
-function Register() {
+function Register({
+	isLoading,
+	setIsLoading,
+	getProfileInfo
+}) {
+	const [apiError, setApiError] = useState({
+		message: '',
+		show: false
+	});
+	
+	const navigate = useNavigate();
+	
 	const {
 		register,
 		handleSubmit,
@@ -11,7 +27,8 @@ function Register() {
 			errors,
 			isValid,
 			isDirty
-		}
+		},
+		reset
 	} = useForm({
 		mode: 'onChange',
 		defaultValues: {
@@ -21,8 +38,38 @@ function Register() {
 		}
 	});
 	
-	function onSubmit(data) {
-		alert(data);
+	function handleRegister({
+		name,
+		email,
+		password
+	}) {
+		setIsLoading(true);
+		
+		return mainApi.register(name,
+			email,
+			password
+		)
+			.then(() => mainApi.login(email,
+				password
+			))
+			.then(() => getProfileInfo())
+			.then(() => {
+				navigate('/movies',
+					{replace: true}
+				);
+				
+				reset();
+			})
+			.catch(err => {
+				console.log(err);
+				setApiError({
+					message: err.message,
+					show: true
+				});
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	}
 	
 	return (
@@ -38,7 +85,8 @@ function Register() {
 				<form
 					className="register__form"
 					name="register"
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(handleRegister)}
+					noValidate
 				>
 					<fieldset className="register__fieldset">
 						<label
@@ -48,8 +96,10 @@ function Register() {
 							<input
 								type="text"
 								className={`register__input ${errors?.name && 'register__input_error'}`}
+								minLength="2"
 								maxLength="30"
 								placeholder="Имя"
+								pattern="^[а-яА-Яa-zA-Z\s\-]+$"
 								{...register('name',
 									{
 										required: 'Это обязательное поле',
@@ -57,10 +107,15 @@ function Register() {
 											value: 2,
 											message: 'Значение должно быть длиннее 2-х символов'
 										},
-										maxLength: 30
+										maxLength: 30,
+										pattern: {
+											value: /^[а-яА-Яa-zA-Z\s\-]+$/,
+											message: 'Введите корректное имя'
+										}
 									}
 								)}
 								id="name-register"
+								disabled={isLoading}
 							/>
 							{errors?.name && <span className="register__error">{errors?.name?.message}</span>}
 						</label>
@@ -72,6 +127,7 @@ function Register() {
 								type="email"
 								className={`register__input ${errors?.email && 'register__input_error'}`}
 								placeholder="Email"
+								pattern="\S+@\S+\.\S+"
 								{...register('email',
 									{
 										required: 'Это обязательное поле',
@@ -82,6 +138,7 @@ function Register() {
 									}
 								)}
 								id="email-register"
+								disabled={isLoading}
 							/>
 							{errors?.email && <span className="register__error">{errors?.email?.message}</span>}
 						</label>
@@ -97,20 +154,23 @@ function Register() {
 									{required: 'Это обязательное поле'}
 								)}
 								id="password-register"
+								disabled={isLoading}
 							/>
 							{errors?.password && <span className="register__error">{errors?.password?.message}</span>}
 						</label>
 					</fieldset>
 					<div className="register__button-container">
 						<ApiError
-							message="При обновлении профиля произошла ошибка."
-							show={false}
+							message={apiError.message}
+							show={apiError.show}
 						/>
 						<button
 							type="submit"
 							className="register__button hover hover_type_button"
-							disabled={!isDirty || !isValid}
-						>Зарегистрироваться
+							disabled={!isDirty || !isValid || isLoading}
+						>{isLoading ?
+							'Регистрация...' :
+							'Зарегистрироваться'}
 						</button>
 					</div>
 				</form>

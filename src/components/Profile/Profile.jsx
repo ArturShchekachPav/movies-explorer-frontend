@@ -1,19 +1,33 @@
-import Header from '../Header/Header';
 import './Profile.css';
-import {useState} from 'react';
+import {
+	useContext
+} from 'react';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 export function Profile({
-	onSidebarClose,
-	name,
-	email
+	children,
+	isEditing,
+	onSubmit,
+	setIsEditing,
+	logOut,
+	isLoading,
+	updateStatus
 }) {
-	const [isEditing, setIsEditing] = useState(false);
+	
+	const {
+		name,
+		email
+	} = useContext(CurrentUserContext);
+	
 	const {
 		register,
 		handleSubmit,
-		formState: {isValid}
+		formState: {
+			isValid,
+			isDirty
+		}
 	} = useForm({
 		mode: 'onChange',
 		defaultValues: {
@@ -21,20 +35,17 @@ export function Profile({
 			email: email
 		}
 	});
-
-	function onSubmit() {
-		setIsEditing(false);
-	}
-
+	
 	return (
 		<div className="profile">
-			<Header onSidebarClose={onSidebarClose}/>
+			{children}
 			<main className="profile__main">
 				<h1 className="profile__greeting">Привет, {name}!</h1>
 				<form
 					className="profile__data-container"
 					name="profile-edit"
 					onSubmit={handleSubmit(onSubmit)}
+					noValidate
 				>
 					<div className="profile__data-field">
 						<label className="profile__data-label">Имя</label>
@@ -44,15 +55,17 @@ export function Profile({
 							maxLength="30"
 							minLength="2"
 							placeholder="Имя"
+							pattern="^[а-яА-Яa-zA-Z\s\-]+$"
 							{...register('name',
 								{
 									required: true,
 									minLength: 2,
-									maxLength: 30
+									maxLength: 30,
+									pattern: /^[а-яА-Яa-zA-Z\s\-]+$/
 								}
 							)}
 							id="name-profile"
-							disabled={!isEditing}
+							disabled={!isEditing || isLoading}
 						/>
 					</div>
 					<div className="profile__data-divider"></div>
@@ -70,10 +83,15 @@ export function Profile({
 								}
 							)}
 							id="email-profile"
-							disabled={!isEditing}
+							disabled={!isEditing || isLoading}
 						/>
 					</div>
 					<div className="profile__buttons">
+						{!isEditing && <ApiError
+							message={updateStatus.message}
+							show={updateStatus.show}
+							success={updateStatus.success}
+						/>}
 						<button
 							type="button"
 							onClick={() => setIsEditing(true)}
@@ -82,6 +100,7 @@ export function Profile({
 						</button>
 						<button
 							type="button"
+							onClick={() => logOut()}
 							className={`profile__button ${!isEditing && 'profile__button_active'} profile__button_exit hover_type_button hover`}
 						>Выйти из аккаунта
 						</button>
@@ -92,8 +111,10 @@ export function Profile({
 						<button
 							type="submit"
 							className={`profile__button ${isEditing && 'profile__button_active'} profile__button_save hover_type_button hover`}
-							disabled={!isValid}
-						>Сохранить
+							disabled={!isValid || isLoading || !isDirty}
+						>{isLoading ?
+							'Сохранение...' :
+							'Сохранить'}
 						</button>
 					</div>
 				</form>

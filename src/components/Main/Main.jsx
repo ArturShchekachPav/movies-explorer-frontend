@@ -1,4 +1,3 @@
-import Header from '../Header/Header';
 import NavTab from '../NavTab/NavTab';
 import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
@@ -8,10 +7,10 @@ import Footer from '../Footer/Footer';
 import Promo from '../Promo/Promo';
 import './Main.css';
 
-function Main({onSidebarClose}) {
+function Main({children}) {
 	return (
 		<div className="main">
-			<Header onSidebarClose={onSidebarClose}/>
+			{children}
 			<main>
 				<Promo/>
 				<NavTab/>

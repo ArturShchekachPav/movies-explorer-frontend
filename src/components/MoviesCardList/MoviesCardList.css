@@ -37,9 +37,10 @@
 .moviescardlist__title {
   text-align: center;
   font-family: "Inter", ‘Arial’, sans-serif;
-  margin: 70px 0;
+  margin: 70px auto;
   font-weight: 400;
-  font-size: 40px;
+  font-size: 27px;
+  max-width: 70%;
 }
 
 @media screen and (max-width: 1024px) {

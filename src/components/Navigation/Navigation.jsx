@@ -1,15 +1,16 @@
 import {
 	NavLink,
-	useLocation,
 	useNavigate
 } from 'react-router-dom';
 import './Navigation.css';
 
-function Navigation({modificator}) {
-	const location = useLocation();
+function Navigation({
+	modificator,
+	isLoggedIn
+}) {
 	const navigate = useNavigate();
 	
-	return location.pathname === '/' ?
+	return !isLoggedIn ?
 		(
 			<nav className="navigation navigation_type_main">
 				<ul className="navigation__list navigation__list_type_main">

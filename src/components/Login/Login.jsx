@@ -1,8 +1,24 @@
-import {Link} from 'react-router-dom';
+import {
+	Link,
+	useNavigate
+} from 'react-router-dom';
 import ApiError from '../ApiError/ApiError';
 import {useForm} from 'react-hook-form';
+import mainApi from '../../utils/MainApi';
+import {useState} from 'react';
 
-function Login() {
+function Login({
+	getProfileInfo,
+	isLoading,
+	setIsLoading
+}) {
+	const [apiError, setApiError] = useState({
+		message: '',
+		show: false
+	});
+	
+	const navigate = useNavigate();
+	
 	const {
 		register,
 		handleSubmit,
@@ -10,7 +26,8 @@ function Login() {
 			errors,
 			isValid,
 			isDirty
-		}
+		},
+		reset
 	} = useForm({
 		mode: 'onChange',
 		defaultValues: {
@@ -19,8 +36,32 @@ function Login() {
 		}
 	});
 	
-	function onSubmit(data) {
-		alert(data);
+	function handleAuthorize({
+		email,
+		password
+	}) {
+		setIsLoading(true);
+		return mainApi.login(email,
+			password
+		)
+			.then(() => getProfileInfo())
+			.then(() => {
+				navigate('/movies',
+					{replace: true}
+				);
+				
+				reset();
+			})
+			.catch(err => {
+				console.log(err);
+				setApiError({
+					message: err.message,
+					show: true
+				});
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	}
 	
 	return (
@@ -36,7 +77,8 @@ function Login() {
 				<form
 					className="register__form"
 					name="login"
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(handleAuthorize)}
+					noValidate
 				>
 					<fieldset className="register__fieldset">
 						<label
@@ -57,6 +99,7 @@ function Login() {
 									}
 								)}
 								id="email-register"
+								disabled={isLoading}
 							/>
 							{errors?.email && <span className="register__error">{errors?.email?.message}</span>}
 						</label>
@@ -72,20 +115,23 @@ function Login() {
 									{required: 'Это обязательное поле'}
 								)}
 								id="password-register"
+								disabled={isLoading}
 							/>
 							{errors?.password && <span className="register__error">{errors?.password?.message}</span>}
 						</label>
 					</fieldset>
 					<div className="register__button-container">
 						<ApiError
-							message="При обновлении профиля произошла ошибка."
-							show={false}
+							message={apiError.message}
+							show={apiError.show}
 						/>
 						<button
 							type="submit"
 							className="register__button hover hover_type_button"
-							disabled={!isDirty || !isValid}
-						>Войти
+							disabled={!isDirty || !isValid || isLoading}
+						>{isLoading ?
+							'Авторизация...' :
+							'Войти'}
 						</button>
 					</div>
 				</form>

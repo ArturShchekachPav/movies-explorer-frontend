@@ -1,36 +1,45 @@
 import './MoviesCard.css';
 import {useLocation} from 'react-router-dom';
-import {useState} from 'react';
 
 function MoviesCard({
-	image,
-	title,
-	duration,
-	saved
+	movieData,
+	onSave,
+	onDelete
 }) {
 	const location = useLocation();
-	const [isSaved, setIsSaved] = useState(saved);
 	
 	return (
 		<li className="movie-card">
+			<a
+				href={movieData.trailerLink}
+				className="movie-card__link"
+				target="_blank"
+				rel="noreferrer"
+			></a>
 			<img
 				className="movie-card__image"
-				src={image}
-				alt={'Обложка фильма ' + title}
+				src={movieData.image}
+				alt={'Обложка фильма ' + movieData.nameRU}
 			/>
 			<div className="movie-card__data">
 				<div className="movie-card__info">
-					<h2 className="movie-card__title">{title}</h2>
-					<p className="movie-card__duration">{duration}</p>
+					<h2 className="movie-card__title">{movieData.nameRU}</h2>
+					<p className="movie-card__duration">{`${Math.floor(movieData.duration / 60) ?
+						Math.floor(movieData.duration / 60) + 'ч' :
+						''}${movieData.duration % 60}м`}</p>
 				</div>
 				<button
-					onClick={() => setIsSaved(!isSaved)}
+					onClick={() => {
+						movieData._id ?
+							onDelete(movieData._id) :
+							onSave(movieData);
+					}}
 					aria-label={location.pathname === '/saved-movies' ?
 						'Удалить фильм' :
 						'Сохранить фильм'}
 					className={`movie-card__button hover hover_type_button ${location.pathname === '/saved-movies' ?
 						'movie-card__button_delete' :
-						isSaved ?
+						movieData._id ?
 							'movie-card__button_saved' :
 							'movie-card__button_unsaved'}`}
 				></button>

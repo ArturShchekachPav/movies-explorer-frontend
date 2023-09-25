@@ -57,7 +57,10 @@ function Sidebar({
 					'sidebar__container_open' :
 					''}`}
 			>
-				<Navigation modificator="sidebar"/>
+				<Navigation
+					modificator="sidebar"
+					isLoggedIn={true}
+				/>
 				<button
 					type="button"
 					aria-label="Закрыть меню"

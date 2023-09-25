@@ -1,12 +1,11 @@
 import './ApiError.css';
 
-function ApiError({
+export default function ApiError({
 	message,
-	show
+	show,
+	success
 }) {
 	return (
-		<p className={`api-error ${show && 'api-error_open'}`}>{message}</p>
+		<p className={`api-error ${show && 'api-error_open'} ${success && 'api-error_success'}`}>{message}</p>
 	);
 }
-
-export default ApiError;

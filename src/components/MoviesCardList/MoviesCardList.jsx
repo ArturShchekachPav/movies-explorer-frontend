@@ -1,32 +1,40 @@
 import './MoviesCardList.css';
+import renderCards from '../../utils/renderCards';
 
 function MoviesCardList({
+	moviesMethods: {
+		handleDeleteMovieCard,
+		handleSaveMovieCard
+	},
+	moviesList,
 	children,
-	possibleMore
+	apiError
 }) {
-	return children ?
-		(
-			<section className="moviescardlist">
-				<ul className="container moviescardlist__list">
-					{children}
-				</ul>
-				<div
-					className={`moviescardlist__more ${possibleMore ?
-						'' :
-						'moviescardlist__more_disabled'}`}
-				>
-					<button
-						className={`moviescardlist__more-button ${possibleMore ?
-							'' :
-							'moviescardlist__more-button_disabled'} hover hover_type_button`}
-					>Ещё
-					</button>
-				</div>
-			</section>
-		) :
-		(<section className="moviescardlist">
+	
+	if (apiError) {
+		return (<section className="moviescardlist">
+			<h2 className="moviescardlist__title">Во время запроса произошла ошибка. Возможно, проблема с соединением или
+			                                      сервер недоступен. Подождите немного и попробуйте еще раз</h2>
+		</section>);
+	}
+	
+	if (!moviesList?.length) {
+		return (<section className="moviescardlist">
 			<h2 className="moviescardlist__title">Ничего не найдено</h2>
 		</section>);
+	}
+	
+	return (
+		<section className="moviescardlist">
+			<ul className="container moviescardlist__list">
+				{renderCards(moviesList,
+					handleDeleteMovieCard,
+					handleSaveMovieCard
+				)}
+			</ul>
+			{children}
+		</section>
+	);
 }
 
 export default MoviesCardList;
